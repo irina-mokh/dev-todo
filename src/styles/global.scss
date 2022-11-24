@@ -44,6 +44,8 @@ main {
   padding: 0.5em 2em;
   font-size: 20px;
   font-weight: 700;
+  margin: 0 auto;
+  transition: color 0.3s ease;
 
   &:disabled {
     border-color: vars.$gray;
@@ -73,6 +75,13 @@ main {
   }
 }
 
+// FORMS
+
+.fieldset {
+  border: none;
+  margin: 0 0 1em 0;
+}
+
 .field {
   display: block;
   background-color: transparent;
@@ -81,6 +90,11 @@ main {
   padding: 0.3em 0.5em;
   margin: 0;
   font-size: 20px;
+
+  &::placeholder {
+    color: vars.$white;
+    opacity: 0.6;
+  }
 }
 
 .error {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 type ModalProps = {
@@ -8,13 +8,19 @@ type ModalProps = {
 };
 
 export const Modal = ({ close, children, title }: ModalProps) => {
-  const modalContent = (
-    <div className="overlay" onClick={close} onKeyDown={(e) => {
-      if ((e.key === 'Escape')) {
+  useEffect(() => {
+    const closeEsc = (e: KeyboardEvent) => {
+      if (e.code === 'Escape') {
         close();
       }
-    }}>
-      <div className='popup' onClick={(e) => e.stopPropagation()}>
+    };
+    document.addEventListener('keydown', closeEsc);
+    return () => document.removeEventListener('keydown', close);
+  }, []);
+
+  const modalContent = (
+    <div className="overlay" onClick={close}>
+      <div className="popup" onClick={(e) => e.stopPropagation()}>
         <header className="popup__header">
           {title && <h2>{title}</h2>}
           <button className="close-btn" onClick={close} aria-label="close">
@@ -26,6 +32,6 @@ export const Modal = ({ close, children, title }: ModalProps) => {
     </div>
   );
   const root = document.getElementById('modal-root');
-  
+
   return root ? ReactDOM.createPortal(modalContent, root) : null;
 };
