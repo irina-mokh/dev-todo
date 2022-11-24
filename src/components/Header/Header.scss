@@ -1,0 +1,22 @@
+@use '../../styles/vars';
+
+.header {
+	height: 70px;
+	background-color: vars.$yellow;
+	
+	&__wrapper {
+		height: 100%;
+		display: flex;
+		justify-items: flex-start;
+		align-items: center;
+	}
+	
+	&__logo {
+		display: block;
+		color: vars.$dark;
+		text-decoration: none;
+		font-size: 1.5em;
+		border: 1px solid vars.$dark;
+		padding: 5px;
+	}
+}

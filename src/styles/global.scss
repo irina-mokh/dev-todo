@@ -3,7 +3,8 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: vars.$light;
+  background-color: vars.$dark;
+  color: vars.$white;
 }
 
 * {
@@ -18,7 +19,7 @@ main {
 .container {
   height: 100%;
   margin: 0 auto;
-  max-width: 980px;
+  max-width: 1240px;
   padding: 0 15px;
 }
 
@@ -35,15 +36,11 @@ main {
   overflow: hidden;
 }
 
-.textarea {
-  width: 96%;
-}
-
 .btn {
   display: block;
   background: transparent;
-  border: 1px solid vars.$green;
-  color: vars.$green;
+  border: 1px solid vars.$yellow;
+  color: vars.$yellow;
   padding: 0.5em 2em;
   font-size: 20px;
   font-weight: 700;
@@ -54,12 +51,12 @@ main {
   }
 
   &:not(:disabled):hover {
-    color: vars.$white;
-    background-color: vars.$green;
+    color: vars.$dark;
+    background-color: vars.$yellow;
   }
 
   &:active {
-    background-color: vars.$darkGreen;
+    background-color: vars.$orange;
   }
 }
 
@@ -79,7 +76,8 @@ main {
 .field {
   display: block;
   background-color: transparent;
-  border: 1px solid vars.$green;
+  border: 1px solid vars.$yellow;
+  color: vars.$white;
   padding: 0.3em 0.5em;
   margin: 0;
   font-size: 20px;

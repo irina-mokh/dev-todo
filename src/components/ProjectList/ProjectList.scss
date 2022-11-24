@@ -1,0 +1,30 @@
+@use '../../styles/vars';
+
+.projects {
+	margin: 0 0 1em 0;
+	display: flex;
+	@media (max-width: vars.$smallScreen) {
+		flex-direction: column;
+	}
+	&__thumb {
+		padding: 1.5em 2em;
+		@media (max-width: vars.$smallScreen) {
+			padding: 0.8em;
+		}
+		margin: 0 1em 1em 0;
+		list-style: none;
+		font-size: 1.5em;
+		font-weight: 600;
+		border: 1px solid vars.$white;
+		transition: all 0.1 ease;
+		
+
+		&:hover {
+			box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.3);
+		}
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
+	}
+}
