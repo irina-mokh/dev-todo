@@ -31,7 +31,7 @@ export interface ITaskForm {
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
-  const { id, file, fileName, comments } = item;
+  const { file, fileName, comments } = item;
   const dispatch: AppDispatch = useDispatch();
 
   const [fileErr, setFileErr] = useState('');
@@ -61,14 +61,14 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
     const newTodo = {
       ...data,
-      file: upload || '',
-      fileName: upload ? fileName : '',
+      file: upload,
+      fileName: upload ? uploadText : '',
     };
 
     if (create) {
       dispatch(createTask(newTodo));
     } else {
-      dispatch(editTask({ prev: item, next: newTodo }));
+      dispatch(editTask(newTodo));
     }
     dispatch(prioritize(newTodo));
     close();
@@ -122,7 +122,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       </fieldset>
 
       <label className="label upload btn">
-        {uploadText}
+        {upload ? `Change attachment ${uploadText}` : uploadText}
         <input type="file" {...register('file')} onChange={handleUpload}></input>
       </label>
       {upload && (

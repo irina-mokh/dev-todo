@@ -4,10 +4,17 @@
 	list-style: none;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 1em;
 	margin: 0 0 1em 0;
 	border: 1px solid vars.$gray;
 	cursor: grab;
+	&__title {
+		flex-grow: 1;
+	}
+	&__deadline {
+		margin: 0 1em 0 0;
+	}
 
 	&_done {
 		opacity: 0.6;

@@ -37,6 +37,7 @@ export const mainSlice = createSlice({
       };
     },
     editTask: (state, { payload }) => {
+      console.log(payload);
       const { tasks } = state;
       const i = tasks.findIndex((item) => item.id == payload.id);
       const preserve = [...tasks];
@@ -54,12 +55,10 @@ export const mainSlice = createSlice({
           // check all tasks for same project, status-board and higher priority
           task.projectId == active.projectId &&
           task.status == active.status &&
-          task.priority >= active.priority
+          task.priority >= active.priority &&
+          task.id !== active.id
         ) {
-          //if it's not a current active task
-          if (task.id !== active.id) {
-            task.priority++;
-          }
+          task.priority++;
         }
         return task;
       });
