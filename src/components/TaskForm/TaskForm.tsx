@@ -107,7 +107,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
             ></input>
           </label>
           <label className="label">
-            <span className="label__text">Priority*:</span>
+            <span className="label__text">Priority:</span>
             <input type="number" {...register('priority', { required: true })} className="field" />
           </label>
           <label className="label">

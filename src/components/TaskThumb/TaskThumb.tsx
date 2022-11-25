@@ -1,5 +1,5 @@
 import { ITask } from '../../types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal } from '../Modal/Modal';
 import { TaskForm } from '../TaskForm/TaskForm';
 import { Comments } from '../Comments/Comments';
@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store';
 import { deleteTask } from '../../store/reducer';
 
 export const TaskThumb = (props: ITask) => {
-  const { title, id, priority, status } = props;
+  const { title, id, priority, status, deadline } = props;
   const [isModal, setIsModal] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -17,9 +17,19 @@ export const TaskThumb = (props: ITask) => {
     setIsModal(false);
   };
 
+  const [isLate, setIsLate] = useState(false);
+  useEffect(() => {
+    const today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+    if (new Date(today) > new Date(deadline)) {
+      setIsLate(true);
+    } else {
+      setIsLate(false);
+    }
+  }, [deadline]);
+
   return (
     <li
-      className={`task ${status == 'done' ? 'task_done' : ''}`}
+      className={`task ${status == 'done' ? 'task_done' : ''} ${isLate ? 'task_late' : ''}`}
       onClick={() => {
         setIsModal(true);
       }}
