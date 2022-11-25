@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { readFileAsync } from '../../utils';
 import { ITask, Status, Subtasks } from '../../types';
-import { createTask } from '../../store/reducer';
+import { createTask, editTask } from '../../store/reducer';
 import { Comments } from '../Comments/Comments';
 
 interface TaskFormProps {
@@ -69,7 +69,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     if (create) {
       dispatch(createTask(newTodo));
     } else {
-      //TODO
+      dispatch(editTask(newTodo));
     }
     close();
   };

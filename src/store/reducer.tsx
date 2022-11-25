@@ -47,8 +47,14 @@ export const mainSlice = createSlice({
         tasks: [...preserve],
       };
     },
+    deleteTask: (state, { payload }) => {
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== payload),
+      };
+    },
   },
 });
-export const { createProject, createTask } = mainSlice.actions;
+export const { createProject, createTask, editTask, deleteTask } = mainSlice.actions;
 
 export default mainSlice.reducer;

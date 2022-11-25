@@ -24,6 +24,7 @@ export const Column = ({ data, type }: ColumnProps) => {
     ...INITIAL_TASK,
     projectId: id ? id : '-',
     status: type,
+    id: `${type}-${data.length}`,
   };
 
   const [isAddTaskModal, setIsAddTaskModal] = useState(false);
