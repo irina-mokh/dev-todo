@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IState, ITask } from '../../types';
 import { useEffect, useState } from 'react';
@@ -6,15 +6,16 @@ import { Column } from '../Column/Column';
 
 export const Project = () => {
   const { tasks } = useSelector((state: IState) => state.main);
-
+  const { id } = useParams();
+  const currentTasks = tasks.filter((task) => task.projectId == id);
   const [queue, setQueue] = useState<Array<ITask>>([]);
   const [dev, setDev] = useState<Array<ITask>>([]);
   const [done, setDone] = useState<Array<ITask>>([]);
 
   useEffect(() => {
-    const queue = tasks.filter(({ status }) => status === 'queue');
-    const dev = tasks.filter(({ status }) => status === 'development');
-    const done = tasks.filter(({ status }) => status === 'done');
+    const queue = currentTasks.filter(({ status }) => status === 'queue');
+    const dev = currentTasks.filter(({ status }) => status === 'development');
+    const done = currentTasks.filter(({ status }) => status === 'done');
     setQueue([...queue]);
     setDev([...dev]);
     setDone([...done]);
