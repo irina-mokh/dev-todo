@@ -1,0 +1,25 @@
+@use '../../styles/vars';
+
+.project {
+	&__back {
+		display: block;
+		margin: 0.5em;
+		color: vars.$gray;
+		text-decoration: none;
+	}
+
+	&__columns {
+		display: flex;
+		justify-content: space-between;
+		margin: 1em 0;
+	}
+
+	&__column {
+		list-style: none;
+		width: 100%;
+		margin: 0 2em 0 0;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}

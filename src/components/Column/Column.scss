@@ -1,0 +1,24 @@
+@use '../../styles/vars';
+
+.column {
+	border: 1px solid vars.$gray;
+	padding: 1em;
+	&__name {
+		font-size: 1.2em;
+		text-transform: capitalize;
+		flex-grow: 1;
+	}
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0 0 1em 0;
+	}
+
+	&__list {
+	}
+
+	&__task {
+		list-style: none;
+	}
+}

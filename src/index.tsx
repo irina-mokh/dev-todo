@@ -6,6 +6,7 @@ import { App } from './components/App/App';
 import { store } from './store';
 
 const root = ReactDOM.createRoot(
+  // eslint-disable-next-line prettier/prettier
   document.getElementById('root') as HTMLElement
 );
 root.render(

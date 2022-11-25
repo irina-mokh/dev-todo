@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import mainReducer from './reducer';
 
-
 const persistedState = () => {
   let state;
   const value = localStorage.getItem('reduxState');

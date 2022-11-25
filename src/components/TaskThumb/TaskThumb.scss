@@ -1,0 +1,7 @@
+@use '../../styles/vars';
+
+.task {
+	padding: 1em;
+	margin: 0 0 1em 0;
+	border: 1px solid vars.$gray;
+}
