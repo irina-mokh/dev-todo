@@ -10,6 +10,10 @@ export const Home = () => {
   // console.log(state);
   const [isCreateProjectModal, setIsCreateProjectModal] = useState(false);
 
+  const close = () => {
+    setIsCreateProjectModal(false);
+  };
+
   return (
     <main className="app__main home">
       <div className="container">
@@ -25,18 +29,8 @@ export const Home = () => {
             Add project
           </button>
           {isCreateProjectModal && (
-            <Modal
-              title="Create project"
-              close={() => {
-                setIsCreateProjectModal(false);
-              }}
-            >
-              <CreateProject
-                id={String(state.projects.length)}
-                close={() => {
-                  setIsCreateProjectModal(false);
-                }}
-              />
+            <Modal title="Create project" close={close}>
+              <CreateProject id={String(state.projects.length)} close={close} />
             </Modal>
           )}
         </section>

@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store';
 import { deleteTask } from '../../store/reducer';
 
 export const TaskThumb = (props: ITask) => {
-  const { title, id } = props;
+  const { title, id, priority, status } = props;
   const [isModal, setIsModal] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -18,13 +18,14 @@ export const TaskThumb = (props: ITask) => {
   };
 
   return (
-    <div
-      className="task"
+    <li
+      className={`task ${status == 'done' ? 'task_done' : ''}`}
       onClick={() => {
         setIsModal(true);
       }}
+      style={{ order: priority }}
     >
-      <h3>{title}</h3>
+      <h3 className="task__title">{title}</h3>
       <button
         className="close-btn"
         onClick={() => {
@@ -40,6 +41,6 @@ export const TaskThumb = (props: ITask) => {
           {/* <Comments></Comments> */}
         </Modal>
       )}
-    </div>
+    </li>
   );
 };

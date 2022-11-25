@@ -19,6 +19,7 @@ export const CreateProject = (props: CreateProjectProps) => {
       createProject({
         id: props.id,
         title: data.get('title'),
+        tasks: { 'queue': [], 'development': [], 'done': []}
       })
     );
     props.close();

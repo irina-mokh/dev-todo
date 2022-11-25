@@ -18,7 +18,6 @@ export interface ITask {
   title: string;
   description: string;
   created: string;
-  duration: string;
   deadline: string;
   priority: number;
   file: string;

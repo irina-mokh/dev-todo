@@ -31,13 +31,13 @@ export const Project = () => {
           <h1> Project Page</h1>
         </header>
         <ul className="project__columns">
-          <li className="project__column">
+          <li className="project__column" key="queue">
             <Column data={queue} type="queue" />
           </li>
-          <li className="project__column">
+          <li className="project__column" key="dev">
             <Column data={dev} type="development" />
           </li>
-          <li className="project__column">
+          <li className="project__column" key="done">
             <Column data={done} type="done" />
           </li>
         </ul>

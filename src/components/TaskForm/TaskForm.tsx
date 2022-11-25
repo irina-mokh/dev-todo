@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { readFileAsync } from '../../utils';
 import { ITask, Status, Subtasks } from '../../types';
-import { createTask, editTask } from '../../store/reducer';
+import { createTask, editTask, prioritize } from '../../store/reducer';
 import { Comments } from '../Comments/Comments';
 
 interface TaskFormProps {
@@ -63,14 +63,14 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       ...data,
       file: upload || '',
       fileName: upload ? fileName : '',
-      id,
     };
 
     if (create) {
       dispatch(createTask(newTodo));
     } else {
-      dispatch(editTask(newTodo));
+      dispatch(editTask({ prev: item, next: newTodo }));
     }
+    dispatch(prioritize(newTodo));
     close();
   };
 

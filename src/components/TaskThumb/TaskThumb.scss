@@ -1,9 +1,17 @@
 @use '../../styles/vars';
 
 .task {
+	list-style: none;
 	display: flex;
 	justify-content: space-between;
 	padding: 1em;
 	margin: 0 0 1em 0;
 	border: 1px solid vars.$gray;
+	cursor: grab;
+	&_done {
+		opacity: 0.6;
+		.task__title {
+			text-decoration: line-through;
+		}
+	}
 }

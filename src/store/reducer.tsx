@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IStateMain } from '../types';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { IStateMain, ITask } from '../types';
 
 export const INITIAL_TASK = {
   id: '',
@@ -7,7 +7,6 @@ export const INITIAL_TASK = {
   description: '',
   title: '',
   created: '',
-  duration: '',
   deadline: '',
   priority: 0,
   file: '',
@@ -47,6 +46,29 @@ export const mainSlice = createSlice({
         tasks: [...preserve],
       };
     },
+    prioritize: (state, action) => {
+      const active: ITask = action.payload;
+      const tasks = JSON.parse(JSON.stringify(state.tasks));
+      const newTasks = tasks.filter((task: ITask) => {
+        if (
+          // check all tasks for same project, status-board and higher priority
+          task.projectId == active.projectId &&
+          task.status == active.status &&
+          task.priority >= active.priority
+        ) {
+          //if it's not a current active task
+          if (task.id !== active.id) {
+            task.priority++;
+          }
+        }
+        return task;
+      });
+
+      return {
+        ...state,
+        tasks: [...newTasks],
+      };
+    },
     deleteTask: (state, { payload }) => {
       return {
         ...state,
@@ -55,6 +77,6 @@ export const mainSlice = createSlice({
     },
   },
 });
-export const { createProject, createTask, editTask, deleteTask } = mainSlice.actions;
+export const { createProject, createTask, editTask, deleteTask, prioritize } = mainSlice.actions;
 
 export default mainSlice.reducer;

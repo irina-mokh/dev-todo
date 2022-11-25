@@ -1,10 +1,11 @@
-import { ITask, Status } from '../../types';
+import { IState, ITask, Status } from '../../types';
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { TaskForm } from '../TaskForm/TaskForm';
 import { INITIAL_TASK } from '../../store/reducer';
 import { useParams } from 'react-router-dom';
 import { TaskThumb } from '../TaskThumb/TaskThumb';
+import { useSelector } from 'react-redux';
 
 type ColumnProps = {
   data: Array<ITask>,
@@ -14,17 +15,14 @@ type ColumnProps = {
 export const Column = ({ data, type }: ColumnProps) => {
   const { id } = useParams();
 
-  const items = data.map((item) => (
-    <li key={item.id} className="column__task">
-      <TaskThumb {...item} />
-    </li>
-  ));
+  const { tasks } = useSelector((state: IState) => state.main);
+  const items = data.map((item) => <TaskThumb {...item} key={item.id} />);
 
   const initialTask = {
     ...INITIAL_TASK,
     projectId: id ? id : '-',
     status: type,
-    id: `${type}-${data.length}`,
+    id: String(tasks.length),
   };
 
   const [isAddTaskModal, setIsAddTaskModal] = useState(false);
