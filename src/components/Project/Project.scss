@@ -11,13 +11,26 @@
 	&__columns {
 		display: flex;
 		justify-content: space-between;
-		margin: 1em 0;
+		padding: 1em 0;
+		overflow-x: auto;
+		&::-webkit-scrollbar {
+			height: 0.6em;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: vars.$dark;
+			border: 1px solid vars.$gray;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: vars.$gray;
+			opacity: 0.5;
+		}
 	}
 
 	&__column {
 		list-style: none;
 		width: 100%;
-		margin: 0 2em 0 0;
+		margin: 0 1em 0 0;
+
 		&:last-child {
 			margin-right: 0;
 		}
