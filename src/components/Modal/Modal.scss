@@ -16,7 +16,7 @@
 .popup {
 	background-color: vars.$dark;
   min-width: 50%;
-  margin: 10vh auto;
+  margin: auto;
   box-shadow: 0 0 5px rgba(58, 58, 58, 0.616);
 	animation: 0.2s ease-out 0s 1 slideInFromBottom;
     @keyframes slideInFromBottom {

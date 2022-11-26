@@ -127,7 +127,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       </label>
       {upload && (
         <>
-          <a href={upload} download>
+          <a href={upload} download className="task__file">
             {uploadText}
           </a>
         </>

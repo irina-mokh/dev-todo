@@ -48,7 +48,7 @@ export const TaskThumb = (props: ITask) => {
         🗙
       </button>
       {isModal && (
-        <Modal close={closeModal} title={`${title}: ${id}`}>
+        <Modal close={closeModal} title={`${title} (id:${id})`}>
           <TaskForm close={closeModal} item={props} create={false} />
           {/* <Comments></Comments> */}
         </Modal>

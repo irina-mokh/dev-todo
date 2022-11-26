@@ -26,4 +26,9 @@
 	&_late {
 		color: vars.$red;
 	}
+
+	&__file {
+		color: vars.$gray;
+		text-decoration: none;
+	}
 }
