@@ -13,6 +13,7 @@
 		width: 100%;
 		&:first-child {
 			margin: 0 1em 0 0;
+			flex-basis: 150%;
 		}
 	}
 
@@ -64,5 +65,10 @@
 
 	.submit {
 		margin: 0 auto;
+	}
+
+	.duration {
+		color: vars.$white;
+		margin: 0 0 0 1em;
 	}
 }

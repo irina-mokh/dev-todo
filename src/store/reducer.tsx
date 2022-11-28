@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { IStateMain, ITask } from '../types';
 
 export const INITIAL_TASK = {

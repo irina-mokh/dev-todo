@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { readFileAsync } from '../../utils';
+import { getDuration, readFileAsync } from '../../utils';
 import { ITask, Status, Subtasks } from '../../types';
 import { createTask, editTask, prioritize } from '../../store/reducer';
 import { Comments } from '../Comments/Comments';
@@ -31,7 +31,7 @@ export interface ITaskForm {
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
-  const { file, fileName, comments } = item;
+  const { file, fileName, comments, created } = item;
   const dispatch: AppDispatch = useDispatch();
 
   const [fileErr, setFileErr] = useState('');
@@ -61,6 +61,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
     const newTodo = {
       ...data,
+      created: new Date(),
       file: upload,
       fileName: upload ? uploadText : '',
     };
@@ -88,6 +89,10 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
             />
           </label>
           <label className="label">
+            <span className="label__text">Priority:</span>
+            <input type="number" {...register('priority', { required: true })} className="field" />
+          </label>
+          <label className="label">
             <span className="label__text">Description:</span>
             <textarea
               rows={3}
@@ -106,10 +111,12 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
               className="field"
             ></input>
           </label>
-          <label className="label">
-            <span className="label__text">Priority:</span>
-            <input type="number" {...register('priority', { required: true })} className="field" />
-          </label>
+          {!create && (
+            <span className="label__text">
+              In progress:
+              <span className="duration">{getDuration(new Date(created))}</span>
+            </span>
+          )}
           <label className="label">
             <span className="label__text">Status*:</span>
             <select {...register('status')} className="field">
@@ -121,17 +128,19 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
         </div>
       </fieldset>
 
-      <label className="label upload btn">
-        {upload ? `Change attachment ${uploadText}` : uploadText}
-        <input type="file" {...register('file')} onChange={handleUpload}></input>
-      </label>
-      {upload && (
-        <>
-          <a href={upload} download className="task__file">
-            {uploadText}
-          </a>
-        </>
-      )}
+      <fieldset className="fieldset form__row">
+        <label className="label upload btn">
+          {upload ? `Change attachment ${uploadText}` : uploadText}
+          <input type="file" {...register('file')} onChange={handleUpload}></input>
+        </label>
+        {upload && (
+          <>
+            <a href={upload} download className="task__file">
+              {uploadText}
+            </a>
+          </>
+        )}
+      </fieldset>
       {fileErr && <p className="error">{fileErr}</p>}
 
       <div className="form__row">
