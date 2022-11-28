@@ -9,18 +9,17 @@
 	&__col {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		
 		width: 100%;
 		&:first-child {
-			margin: 0 1em 0 0;
-			flex-basis: 150%;
+			margin: 0 2em 0 0;
 		}
 	}
 
 	.label {
 		display: inline-block;
 		display: block;
-		margin: 0 0 1.2em 0;
+		margin: 0 0 0.5em 0;
 
 		&__text {
 			display: block;
@@ -53,7 +52,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin: 0 0 1em 0;
 		border: 1px solid vars.$yellow;
 		font-size: 16px;
 		font-weight: 400;
@@ -70,5 +68,9 @@
 	.duration {
 		color: vars.$white;
 		margin: 0 0 0 1em;
+	}
+
+	& &__subtasks {
+		margin: 1em 0 0 0;
 	}
 }

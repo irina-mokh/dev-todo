@@ -1,0 +1,39 @@
+@use '../../styles/vars';
+
+.subtasks {
+	color: vars.$white;
+
+	&__input {
+		display: flex;
+	}
+	
+	&__add {
+		color: inherit;
+		margin: 0 0 0 1em;
+		padding: 0.5em;
+		opacity: 0;
+		font-size: 0.8em;
+		border: 1px solid vars.$gray;
+		transition: all 0.2s ease;
+	}
+
+	&__field {
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid vars.$gray;
+		padding: 2px 5px;
+		outline: none;
+		color: inherit;
+
+		&:focus {
+			border-color: vars.$yellow;
+		}
+		&:focus + .subtasks__add {
+			opacity: 1;
+		}
+	}
+
+	&__list {
+		margin: 7px 0 0 0;
+	}
+}

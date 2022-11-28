@@ -23,13 +23,14 @@ export interface ITask {
   file: string;
   fileName: string;
   status: Status;
-  subTasks: Subtasks;
+  subTasks: ISubtasks;
   comments: Array<IComment>;
 }
 
-export interface Subtasks extends Array<Subtask> {}
+export interface ISubtasks extends Array<ISubtask> {}
 
-export type Subtask = {
+export type ISubtask = {
+  id: string,
   title: string,
   done: boolean,
 };

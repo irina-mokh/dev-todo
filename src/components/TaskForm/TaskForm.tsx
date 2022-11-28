@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { getDuration, readFileAsync } from '../../utils';
-import { ITask, Status, Subtasks } from '../../types';
+import { ISubtasks, ITask, Status } from '../../types';
 import { createTask, editTask, prioritize } from '../../store/reducer';
 import { Comments } from '../Comments/Comments';
+import { Subtasks } from '../Subtasks/Subtasks';
 
 interface TaskFormProps {
   item: ITask;
@@ -24,19 +25,20 @@ export interface ITaskForm {
   priority: number;
   fileName: string;
   status: Status;
-  subTasks: Subtasks;
+  subTasks: ISubtasks;
   file: string;
   // comments: Array<IComment>;
   // file?: FileList | null;
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
-  const { file, fileName, comments, created } = item;
+  const { file, fileName, comments, created, subTasks, id, priority } = item;
   const dispatch: AppDispatch = useDispatch();
 
   const [fileErr, setFileErr] = useState('');
   const [uploadText, setUploadText] = useState(fileName || 'Attachment(max 1MB)...');
   const [upload, setUpload] = useState(file);
+  const [subs, setSubs] = useState<ISubtasks>(subTasks);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -61,9 +63,10 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
     const newTodo = {
       ...data,
-      created: new Date(),
+      created: created || String(new Date()),
       file: upload,
       fileName: upload ? uploadText : '',
+      subTasks: subs,
     };
 
     if (create) {
@@ -71,7 +74,9 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     } else {
       dispatch(editTask(newTodo));
     }
-    dispatch(prioritize(newTodo));
+    if (create || priority !== newTodo.priority) {
+      dispatch(prioritize(newTodo));
+    }
     close();
   };
 
@@ -79,6 +84,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     <form onSubmit={handleSubmit(onSubmit)} className="form">
       <fieldset className="fieldset form__fieldset">
         <div className="form__col">
+          {/* Title */}
           <label className="label">
             <span className="label__text">Title*:</span>
             <input
@@ -88,10 +94,21 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
               placeholder="Task 1"
             />
           </label>
+          {/* Priority */}
           <label className="label">
             <span className="label__text">Priority:</span>
             <input type="number" {...register('priority', { required: true })} className="field" />
           </label>
+          {/* Status */}
+          <label className="label">
+            <span className="label__text">Status*:</span>
+            <select {...register('status')} className="field">
+              <option value="queue">queue</option>
+              <option value="development">development</option>
+              <option value="done">done</option>
+            </select>
+          </label>
+          {/* Description */}
           <label className="label">
             <span className="label__text">Description:</span>
             <textarea
@@ -103,6 +120,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           </label>
         </div>
         <div className="form__col">
+          {/* Deadline */}
           <label className="label">
             <span className="label__text">Deadline*:</span>
             <input
@@ -111,19 +129,23 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
               className="field"
             ></input>
           </label>
+          {/* In progress */}
           {!create && (
             <span className="label__text">
               In progress:
               <span className="duration">{getDuration(new Date(created))}</span>
             </span>
           )}
-          <label className="label">
-            <span className="label__text">Status*:</span>
-            <select {...register('status')} className="field">
-              <option value="queue">queue</option>
-              <option value="development">development</option>
-              <option value="done">done</option>
-            </select>
+          {/* Subtasks */}
+          <label className="label form__subtasks">
+            <span className="label__text">Subtasks:</span>
+            <Subtasks
+              data={subs}
+              taskId={id}
+              handleChange={(data: ISubtasks) => {
+                setSubs(data);
+              }}
+            />
           </label>
         </div>
       </fieldset>
