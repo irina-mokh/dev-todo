@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { IState, ITask } from '../../types';
 import { useEffect, useState } from 'react';
 import { Column } from '../Column/Column';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 export const Project = () => {
   const { tasks } = useSelector((state: IState) => state.main);
@@ -22,26 +24,28 @@ export const Project = () => {
   }, [tasks]);
 
   return (
-    <main className="project">
-      <div className="container">
-        <header>
-          <Link to="/" className="link">
-            <p className="project__back">{`< Back`}</p>
-          </Link>
-          <h1> Project Page</h1>
-        </header>
-        <ul className="project__columns">
-          <li className="project__column" key="queue">
-            <Column data={queue} type="queue" />
-          </li>
-          <li className="project__column" key="dev">
-            <Column data={dev} type="development" />
-          </li>
-          <li className="project__column" key="done">
-            <Column data={done} type="done" />
-          </li>
-        </ul>
-      </div>
-    </main>
+    <DndProvider backend={HTML5Backend}>
+      <main className="project">
+        <div className="container">
+          <header>
+            <Link to="/" className="link">
+              <p className="project__back">{`< Back`}</p>
+            </Link>
+            <h1> Project Page</h1>
+          </header>
+          <ul className="project__columns">
+            <li className="project__column" key="queue">
+              <Column data={queue} type="queue" />
+            </li>
+            <li className="project__column" key="dev">
+              <Column data={dev} type="development" />
+            </li>
+            <li className="project__column" key="done">
+              <Column data={done} type="done" />
+            </li>
+          </ul>
+        </div>
+      </main>
+    </DndProvider>
   );
 };

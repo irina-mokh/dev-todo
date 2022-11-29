@@ -37,7 +37,6 @@ export const mainSlice = createSlice({
       };
     },
     editTask: (state, { payload }) => {
-      console.log(payload);
       const { tasks } = state;
       const i = tasks.findIndex((item) => item.id == payload.id);
       const preserve = [...tasks];

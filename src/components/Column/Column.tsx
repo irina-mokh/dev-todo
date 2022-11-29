@@ -2,10 +2,12 @@ import { IState, ITask, Status } from '../../types';
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { TaskForm } from '../TaskForm/TaskForm';
-import { INITIAL_TASK } from '../../store/reducer';
+import { editTask, INITIAL_TASK, prioritize } from '../../store/reducer';
 import { useParams } from 'react-router-dom';
 import { TaskThumb } from '../TaskThumb/TaskThumb';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop, DropTargetMonitor } from 'react-dnd';
+import { AppDispatch } from '../../store';
 
 type ColumnProps = {
   data: Array<ITask>,
@@ -30,8 +32,24 @@ export const Column = ({ data, type }: ColumnProps) => {
     setIsAddTaskModal(false);
   };
 
+  const dispatch: AppDispatch = useDispatch();
+
+  // Drop task
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: 'task',
+    drop: async (drag: ITask) => {
+      const newTask = { ...drag, status: type, priority: 0 };
+      dispatch(editTask(newTask));
+      dispatch(prioritize(newTask));
+    },
+    collect: (monitor: DropTargetMonitor) => ({
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
+    }),
+  }));
+
   return (
-    <div className="column">
+    <div className={`column ${isOver ? 'column_highlight' : ''}`} ref={drop}>
       <header className="column__header">
         <h2 className="column__name">{type}</h2>
         <button

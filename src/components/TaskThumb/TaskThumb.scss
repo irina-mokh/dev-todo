@@ -9,12 +9,23 @@
 	margin: 0 0 1em 0;
 	border: 1px solid vars.$gray;
 	cursor: grab;
+
+	&_highlight {
+		border-top-color: vars.$orange;
+		box-shadow: 0 -3px 0 0px vars.$orange;
+	}
+
+	&_invisible {
+		opacity: 0;
+	}
+
 	&__title {
 		flex-grow: 1;
 	}
 	&__deadline {
 		margin: 0 1em 0 0;
 	}
+
 
 	&_done {
 		opacity: 0.6;
