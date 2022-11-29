@@ -8,8 +8,10 @@ export interface IState {
 }
 
 export interface IComment {
+  id: string;
   text: string;
-  subComments: Array<IComment>;
+  time: string;
+  comments: Array<IComment>;
 }
 
 export interface ITask {

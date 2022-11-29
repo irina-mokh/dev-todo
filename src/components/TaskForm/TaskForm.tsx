@@ -173,7 +173,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           disabled={!isValid}
         ></input>
       </div>
-      {!create && <Comments data={comments} />}
+      {!create && <Comments data={comments} taskId={id} />}
     </form>
   );
 };

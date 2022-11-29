@@ -1,0 +1,48 @@
+@use '../../styles/vars';
+
+.comment {
+	list-style: none;
+	border: none;
+	border-left: 1px solid vars.$gray;
+	padding: 0.5em  0 0 0.5em;
+	margin: 0.5em 0 0 0;
+
+	&__text {
+		margin: 0 0 0.4em 0;
+		padding: 0 1em;
+		font-style: italic;
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		margin: 0 0 5px 0;
+	}
+	
+	&__user {
+		font-weight: 600;
+		font-size: 0.7em;
+		color: vars.$gray;
+
+	}
+
+	&__time {
+		font-size: 0.7em;
+		color: vars.$gray;
+	}
+
+	&__reply {
+		background-color: transparent;
+		color: vars.$gray;
+		border: none;
+		padding: 0.2em;
+	}
+
+	&__subs {
+		padding: 0 0 0 1em;
+	}
+
+	&__arrow {
+		margin: 0 5px 0 0;
+	}
+}

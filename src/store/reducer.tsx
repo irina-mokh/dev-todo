@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IStateMain, ITask } from '../types';
+import { IComment, IStateMain, ITask } from '../types';
 
 export const INITIAL_TASK = {
   id: '',
@@ -74,8 +74,38 @@ export const mainSlice = createSlice({
         tasks: state.tasks.filter((task) => task.id !== payload),
       };
     },
+    addComment: (state, { payload }) => {
+      const parentIdArr = payload.id.split('-');
+
+      const parentId = parentIdArr.splice(0, parentIdArr.length - 1).join('-');
+
+      const tasks = JSON.parse(JSON.stringify(state.tasks));
+
+      function findComment(comment: IComment) {
+        let res: IComment | undefined;
+        if (comment.id == parentId) {
+          res = comment;
+        } else {
+          comment.comments.forEach((sub) => {
+            while (!res) {
+              res = findComment(sub);
+            }
+          });
+        }
+        return res;
+      }
+
+      const parent = tasks.map((comment: IComment) => findComment(comment))[0];
+      parent.comments.push(payload);
+
+      return {
+        ...state,
+        tasks: [...tasks],
+      };
+    },
   },
 });
-export const { createProject, createTask, editTask, deleteTask, prioritize } = mainSlice.actions;
+export const { createProject, createTask, editTask, deleteTask, prioritize, addComment } =
+  mainSlice.actions;
 
 export default mainSlice.reducer;

@@ -42,7 +42,7 @@ main {
   border: 1px solid vars.$yellow;
   color: vars.$yellow;
   padding: 0.5em 2em;
-  font-size: 1.4em;
+  font-size: 1.1em;
   font-weight: 700;
   margin: 0 auto;
   transition: color 0.3s ease;
@@ -97,7 +97,10 @@ main {
   font-size: 1.1em;
   width: 100%;
   box-sizing: border-box;
-
+  outline: none;
+  &:focus {
+    border-color: vars.$orange;
+  }
   &::placeholder {
     color: vars.$white;
     opacity: 0.6;

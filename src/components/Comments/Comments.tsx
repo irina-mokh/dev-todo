@@ -1,19 +1,26 @@
 import { IComment } from '../../types';
+import { Comment } from '../Comment/Comment';
+import { AddComment } from '../AddComment/AddComment';
 
 type CommentsProps = {
   data: Array<IComment>,
+  taskId: string,
 };
 
-export const Comments = ({ data }: CommentsProps) => {
-  const commentsRender = (data: Array<IComment>) => {
-    const res = data.map((com) => (
-      <li>
-        <p>{com.text}</p>
-        {com.subComments && <ul>{commentsRender(com.subComments)}</ul>}
-      </li>
-    ));
-    return res;
-  };
-
-  return <ul className="comments">{commentsRender(data)}</ul>;
+export const Comments = ({ data, taskId }: CommentsProps) => {
+  return (
+    <section className="comments">
+      <h3>Comments:</h3>
+      <AddComment id={taskId + '-' + data.length} />
+      {data.length === 0 ? (
+        <p className="comments__text">No comments found</p>
+      ) : (
+        <ul className="comments">
+          {data.map((item) => (
+            <Comment key={item.id} {...item} />
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 };
