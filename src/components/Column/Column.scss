@@ -4,14 +4,19 @@
 	border: 1px solid vars.$gray;
 	padding: 1em;
 	transition: all 0.2s ease;
+	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
 	@media (max-width: vars.$mediumScreen) {
 		font-size: 12px;
 	}
 
 	&_highlight {
-		border-color: vars.$darkGreen;
-		box-shadow: inset 0 0 10px 10px rgba(0, 0, 0, 0.1);
+		border-color: vars.$green;
+		border-style: dashed;
 		opacity: 0.8;
+	}
+
+	.btn {
+		padding: 0.5em;
 	}
 
 	&__name {

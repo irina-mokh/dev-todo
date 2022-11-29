@@ -58,7 +58,7 @@ export const Column = ({ data, type }: ColumnProps) => {
             setIsAddTaskModal(true);
           }}
         >
-          Add
+          + add task
         </button>
       </header>
       <ul className="column__list">{items}</ul>

@@ -6,6 +6,9 @@
 		margin: 0.5em;
 		color: vars.$gray;
 		text-decoration: none;
+		&:hover {
+			color: vars.$green;
+		}
 	}
 
 	&__columns {

@@ -7,8 +7,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 export const Project = () => {
-  const { tasks } = useSelector((state: IState) => state.main);
   const { id } = useParams();
+  const { tasks, projects } = useSelector((state: IState) => state.main);
+  const project = projects.filter((pr) => pr.id == id)[0];
   const currentTasks = tasks.filter((task) => task.projectId == id);
   const [queue, setQueue] = useState<Array<ITask>>([]);
   const [dev, setDev] = useState<Array<ITask>>([]);
@@ -31,7 +32,7 @@ export const Project = () => {
             <Link to="/" className="link">
               <p className="project__back">{`< Back`}</p>
             </Link>
-            <h1> Project Page</h1>
+            <h1>{project.title}</h1>
           </header>
           <ul className="project__columns">
             <li className="project__column" key="queue">

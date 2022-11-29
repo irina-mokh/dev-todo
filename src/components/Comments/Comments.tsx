@@ -10,7 +10,7 @@ type CommentsProps = {
 export const Comments = ({ data, taskId }: CommentsProps) => {
   return (
     <section className="comments">
-      <h3>Comments:</h3>
+      <h3 className="comments__title">Comments:</h3>
       <AddComment id={taskId + '-' + data.length} />
       {data.length === 0 ? (
         <p className="comments__text">No comments found</p>

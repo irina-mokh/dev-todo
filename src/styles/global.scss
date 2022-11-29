@@ -65,10 +65,10 @@ main {
 .close-btn {
   background-color: transparent;
   border: none;
-  opacity: 0.6;
+  opacity: 0.4;
   cursor: pointer;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 1.2em;
+  line-height: 1.2em;
   color: vars.$white;
   
   &:hover {

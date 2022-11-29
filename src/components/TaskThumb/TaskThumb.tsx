@@ -67,7 +67,6 @@ export const TaskThumb = (task: ITask) => {
     () => ({
       type: 'task',
       item: task,
-      // canDrag: isEmpty ? false : !isPending,
       collect: (monitor: DragSourceMonitor) => ({
         isDragging: monitor.isDragging(),
       }),

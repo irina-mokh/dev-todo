@@ -19,7 +19,6 @@ export const AddComment = ({ id }: AddCommentProps) => {
       comments: [],
       time: String(new Date()),
     };
-    console.log(newComment);
     dispatch(addComment(newComment));
     setComment('');
   };
