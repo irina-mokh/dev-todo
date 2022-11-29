@@ -12,7 +12,8 @@
 
 .popup-wrapper {
   display: flex;
-  align-items: center;
+  padding: 2em 0 0 0;
+  align-items: flex-start;
   justify-content: center;
   height: 100%;
 }
@@ -41,7 +42,7 @@
     justify-content: space-between;
     padding: 0.5em 1em;
 		font-weight: 700;
-    background-color: vars.$orange;
+    background-color: vars.$darkGreen;
     color: vars.$dark;
 	}
 
@@ -59,7 +60,7 @@
       border-left-color: vars.$gray;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: vars.$yellow;
+      background-color: vars.$green;
       opacity: 0.5;
     }
 	}

@@ -11,8 +11,8 @@
 	cursor: grab;
 
 	&_highlight {
-		border-top-color: vars.$orange;
-		box-shadow: 0 -3px 0 0px vars.$orange;
+		border-top-color: vars.$darkGreen;
+		box-shadow: 0 -3px 0 0px vars.$darkGreen;
 	}
 
 	&_invisible {

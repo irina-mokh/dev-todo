@@ -2,12 +2,12 @@
 
 .header {
 	height: 70px;
-	background-color: vars.$yellow;
+	background-color: vars.$green;
 	
 	&__wrapper {
 		height: 100%;
 		display: flex;
-		justify-items: flex-start;
+		justify-content: space-between;
 		align-items: center;
 	}
 	
@@ -18,5 +18,16 @@
 		font-size: 1.5em;
 		border: 1px solid vars.$dark;
 		padding: 5px;
+	}
+
+	&__search {
+		border: none;
+		background-color: transparent;
+		font-size: 1.2em;
+		padding: 0.3em 1em;
+		&:hover {
+			color: vars.$white;
+			border-bottom: 1px solid vars.$white;
+		}
 	}
 }

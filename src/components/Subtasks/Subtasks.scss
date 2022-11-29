@@ -26,7 +26,7 @@
 		color: inherit;
 
 		&:focus {
-			border-color: vars.$yellow;
+			border-color: vars.$green;
 		}
 		&:focus + .subtasks__add {
 			opacity: 1;

@@ -38,11 +38,11 @@
 		padding: 0.2em;
 		&.show_active,
 		&.reply_active {
-			color: vars.$orange;
+			color: vars.$darkGreen;
 		}
 
 		&:hover {
-			color: vars.$yellow;
+			color: vars.$green;
 		}
 	}
 

@@ -39,8 +39,8 @@ main {
 .btn {
   display: block;
   background: transparent;
-  border: 1px solid vars.$yellow;
-  color: vars.$yellow;
+  border: 1px solid vars.$green;
+  color: vars.$green;
   padding: 0.5em 2em;
   font-size: 1.1em;
   font-weight: 700;
@@ -54,11 +54,11 @@ main {
 
   &:not(:disabled):hover {
     color: vars.$dark;
-    background-color: vars.$yellow;
+    background-color: vars.$green;
   }
 
   &:active {
-    background-color: vars.$orange;
+    background-color: vars.$darkGreen;
   }
 }
 
@@ -90,7 +90,7 @@ main {
 .field {
   display: block;
   background-color: transparent;
-  border: 1px solid vars.$yellow;
+  border: 1px solid vars.$gray;
   color: vars.$white;
   padding: 0.3em 0.5em;
   margin: 0;
@@ -99,7 +99,7 @@ main {
   box-sizing: border-box;
   outline: none;
   &:focus {
-    border-color: vars.$orange;
+    border-color: vars.$green;
   }
   &::placeholder {
     color: vars.$white;
