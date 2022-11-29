@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { AppDispatch } from '../../store';
 import { addComment } from '../../store/reducer';
-import { useState } from 'react';
 
 type AddCommentProps = {
   id: string,

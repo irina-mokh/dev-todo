@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import { ITask, IState } from '../../types';
-// import { TaskThumb } from '../TaskThumb/TaskThumb';
 import { useSelector } from 'react-redux';
 
 export const Search = () => {
   const [results, setResults] = useState<Array<ITask>>([]);
 
   const tasks = useSelector((state: IState) => state.main.tasks);
-
-  // const [query, setQuery] = useState('');
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const query = e.target.value;

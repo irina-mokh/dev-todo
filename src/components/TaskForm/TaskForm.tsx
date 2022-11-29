@@ -1,10 +1,13 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { AppDispatch } from '../../store';
-import { getDuration, readFileAsync } from '../../utils';
-import { ISubtasks, ITask, Status } from '../../types';
 import { createTask, editTask, prioritize } from '../../store/reducer';
+import { getDuration, readFileAsync } from '../../utils';
+
+import { ISubtasks, ITask, Status } from '../../types';
+
 import { Comments } from '../Comments/Comments';
 import { Subtasks } from '../Subtasks/Subtasks';
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import { IState } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { CreateProject } from '../CreateProject/CreateProject';

@@ -1,7 +1,7 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Project } from '../Project/Project';
 import { Layout } from '../Layout/Layout';
 import { Home } from '../Home/Home';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export const App = () => {
   return (

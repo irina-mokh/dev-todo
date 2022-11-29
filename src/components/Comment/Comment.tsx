@@ -1,5 +1,5 @@
-import { IComment } from '../../types';
 import { useState } from 'react';
+import { IComment } from '../../types';
 import { AddComment } from '../AddComment/AddComment';
 
 export const Comment = (comment: IComment) => {

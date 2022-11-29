@@ -1,11 +1,13 @@
-import { ITask } from '../../types';
 import { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { Modal } from '../Modal/Modal';
-import { TaskForm } from '../TaskForm/TaskForm';
 import { useDispatch } from 'react-redux';
+import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
+
 import { AppDispatch } from '../../store';
 import { deleteTask, editTask, prioritize } from '../../store/reducer';
-import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
+
+import { ITask } from '../../types';
+import { Modal } from '../Modal/Modal';
+import { TaskForm } from '../TaskForm/TaskForm';
 
 export const TaskThumb = (task: ITask) => {
   const { title, id, priority, status, deadline } = task;

@@ -1,13 +1,16 @@
-import { IState, ITask, Status } from '../../types';
 import { useState } from 'react';
-import { Modal } from '../Modal/Modal';
-import { TaskForm } from '../TaskForm/TaskForm';
-import { editTask, INITIAL_TASK, prioritize } from '../../store/reducer';
-import { useParams } from 'react-router-dom';
-import { TaskThumb } from '../TaskThumb/TaskThumb';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
+
 import { AppDispatch } from '../../store';
+import { editTask, INITIAL_TASK, prioritize } from '../../store/reducer';
+
+import { IState, ITask, Status } from '../../types';
+
+import { Modal } from '../Modal/Modal';
+import { TaskForm } from '../TaskForm/TaskForm';
+import { useParams } from 'react-router-dom';
+import { TaskThumb } from '../TaskThumb/TaskThumb';
 
 type ColumnProps = {
   data: Array<ITask>,

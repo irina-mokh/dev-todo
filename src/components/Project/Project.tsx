@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { IState, ITask } from '../../types';
-import { useEffect, useState } from 'react';
-import { Column } from '../Column/Column';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+
+import { IState, ITask } from '../../types';
+import { Column } from '../Column/Column';
 
 export const Project = () => {
   const { id } = useParams();

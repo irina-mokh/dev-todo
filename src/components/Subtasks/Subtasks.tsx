@@ -1,5 +1,5 @@
-import { ISubtasks, ISubtask } from '../../types';
 import { useState } from 'react';
+import { ISubtasks, ISubtask } from '../../types';
 import { Subtask } from '../Subtask/Subtask';
 
 type SubtasksProps = {

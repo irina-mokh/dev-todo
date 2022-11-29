@@ -1,7 +1,7 @@
-import { AppDispatch } from '../../store';
-import { useDispatch } from 'react-redux';
-import { createProject } from '../../store/reducer';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { createProject } from '../../store/reducer';
 
 type CreateProjectProps = {
   id: string,
