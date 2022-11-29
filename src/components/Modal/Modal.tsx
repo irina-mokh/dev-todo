@@ -20,14 +20,16 @@ export const Modal = ({ close, children, title }: ModalProps) => {
 
   const modalContent = (
     <div className="overlay" onClick={close}>
-      <div className="popup" onClick={(e) => e.stopPropagation()}>
-        <header className="popup__header">
-          {title && <h2>{title}</h2>}
-          <button className="close-btn" onClick={close} aria-label="close">
-            🗙
-          </button>
-        </header>
-        <div className="popup__body">{children}</div>
+      <div className="popup-wrapper">
+        <div className="popup" onClick={(e) => e.stopPropagation()}>
+          <header className="popup__header">
+            {title && <h2>{title}</h2>}
+            <button className="close-btn" onClick={close} aria-label="close">
+              🗙
+            </button>
+          </header>
+          <div className="popup__body">{children}</div>
+        </div>
       </div>
     </div>
   );

@@ -31,11 +31,19 @@
 		color: vars.$gray;
 	}
 
-	&__reply {
+	&__btn {
 		background-color: transparent;
 		color: vars.$gray;
 		border: none;
 		padding: 0.2em;
+		&.show_active,
+		&.reply_active {
+			color: vars.$orange;
+		}
+
+		&:hover {
+			color: vars.$yellow;
+		}
 	}
 
 	&__subs {
@@ -43,6 +51,12 @@
 	}
 
 	&__arrow {
+		display: inline-block;
 		margin: 0 5px 0 0;
+
+		.show_active &,
+		.reply_active &{
+			transform: rotate(90deg);
+		}
 	}
 }
