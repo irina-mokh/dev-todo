@@ -74,27 +74,28 @@ export const mainSlice = createSlice({
       };
     },
     addComment: (state, { payload }) => {
-      const parentIdArr = payload.id.split('-');
+      const idArr = payload.id.split('-');
+      const taskId = idArr[0];
 
-      const parentId = parentIdArr.splice(0, parentIdArr.length - 1).join('-');
-
+      const parentId = idArr.length > 2 ? idArr.splice(0, idArr.length - 1).join('-') : idArr[0];
       const tasks = JSON.parse(JSON.stringify(state.tasks));
 
-      function findComment(comment: IComment) {
-        let res: IComment | undefined;
-        if (comment.id == parentId) {
-          res = comment;
+      let parent: ITask | IComment;
+
+      function findParent(elem: IComment) {
+        if (elem.id == parentId) {
+          parent = elem;
         } else {
-          comment.comments.forEach((sub) => {
-            while (!res) {
-              res = findComment(sub);
+          elem.comments.forEach((sub) => {
+            if (!parent) {
+              parent = findParent(sub);
             }
           });
         }
-        return res;
+        return parent;
       }
 
-      const parent = tasks.map((comment: IComment) => findComment(comment))[0];
+      parent = findParent(tasks[taskId]);
       parent.comments.push(payload);
 
       return {

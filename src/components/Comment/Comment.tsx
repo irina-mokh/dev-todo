@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IComment } from '../../types';
 import { AddComment } from '../AddComment/AddComment';
 
@@ -16,6 +16,9 @@ export const Comment = (comment: IComment) => {
     e.preventDefault();
     setIsInput(!isInput);
   };
+  useEffect(() => {
+    setIsSubs(isInput);
+  }, [isInput]);
   return (
     <li className="comment">
       <header className="comment__header">
