@@ -8,7 +8,6 @@ import { ProjectList } from '../ProjectList/ProjectList';
 
 export const Home = () => {
   const state = useSelector((state: IState) => state.main);
-  // console.log(state);
   const [isCreateProjectModal, setIsCreateProjectModal] = useState(false);
 
   const close = () => {

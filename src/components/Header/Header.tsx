@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { Search } from '../Search/Search';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
   const [isSearch, setIsSearch] = useState(false);
@@ -13,9 +14,9 @@ export const Header = () => {
     <header className="header">
       <div className="container">
         <nav className="header__wrapper">
-          <a href="/" className="header__logo">
+          <Link to="/" className="header__logo">
             Dev-todo
-          </a>
+          </Link>
           <button
             className="header__search"
             onClick={() => {
@@ -26,7 +27,7 @@ export const Header = () => {
           </button>
           {isSearch && (
             <Modal title="Search" close={handleClose}>
-              <Search></Search>
+              <Search />
             </Modal>
           )}
         </nav>

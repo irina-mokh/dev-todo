@@ -85,7 +85,9 @@ export const TaskThumb = (task: ITask) => {
       } ${isOver ? 'task_highlight' : ''} ${isDragging ? 'task_invisible' : ''}`}
       ref={ref}
       onClick={() => {
-        setIsModal(true);
+        if (!isModal) {
+          setIsModal(true);
+        }
       }}
       style={{ order: priority }}
     >

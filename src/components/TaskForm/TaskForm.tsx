@@ -30,14 +30,11 @@ export interface ITaskForm {
   status: Status;
   subTasks: ISubtasks;
   file: string;
-  // comments: Array<IComment>;
-  // file?: FileList | null;
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const { file, fileName, comments, created, subTasks, id, priority } = item;
   const dispatch: AppDispatch = useDispatch();
-
   const [fileErr, setFileErr] = useState('');
   const [uploadText, setUploadText] = useState(fileName || 'Attachment(max 1MB)...');
   const [upload, setUpload] = useState(file);
@@ -66,6 +63,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
     const newTodo = {
       ...data,
+      comments: [...item.comments],
       created: created || String(new Date()),
       file: upload,
       fileName: upload ? uploadText : '',
@@ -165,11 +163,12 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           <input type="file" {...register('file')} onChange={handleUpload}></input>
         </label>
         {upload && (
-          <>
-            <a href={upload} download className="task__file">
+          <p>
+            Attachments:
+            <a href={upload} download className="file">
               {uploadText}
             </a>
-          </>
+          </p>
         )}
       </fieldset>
       {fileErr && <p className="error">{fileErr}</p>}

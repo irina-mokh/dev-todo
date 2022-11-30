@@ -12,7 +12,6 @@ export const App = () => {
           <Route path="/project/:id" element={<Project />} />
         </Route>
       </Routes>
-      <div className="app"></div>
       <div id="modal-root"></div>
     </BrowserRouter>
   );

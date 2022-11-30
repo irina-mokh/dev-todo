@@ -4,7 +4,7 @@ import { AddComment } from '../AddComment/AddComment';
 
 export const Comment = (comment: IComment) => {
   const { text, time, comments, id } = comment;
-  const subs = comments.map((item) => <Comment {...item}></Comment>);
+  const subs = comments.map((item, i) => <Comment key={i} {...item}></Comment>);
   const [isInput, setIsInput] = useState(false);
   const [isSubs, setIsSubs] = useState(false);
 
@@ -17,7 +17,9 @@ export const Comment = (comment: IComment) => {
     setIsInput(!isInput);
   };
   useEffect(() => {
-    setIsSubs(isInput);
+    if (isInput) {
+      setIsSubs(isInput);
+    }
   }, [isInput]);
   return (
     <li className="comment">
