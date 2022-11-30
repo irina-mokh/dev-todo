@@ -57,11 +57,13 @@ export const Column = ({ data, type }: ColumnProps) => {
         <h2 className="column__name">{type}</h2>
         <button
           className="btn"
+          title="add task"
+          aria-label="add task"
           onClick={() => {
             setIsAddTaskModal(true);
           }}
         >
-          + add task
+          +
         </button>
       </header>
       <ul className="column__list">{items}</ul>

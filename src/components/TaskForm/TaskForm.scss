@@ -48,6 +48,10 @@
 		}
 	}
 	
+	.option {
+		background-color: vars.$dark;
+	}
+
 	.upload {
 		display: flex;
 		justify-content: center;

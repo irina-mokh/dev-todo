@@ -8,7 +8,7 @@ export const ProjectList = () => {
 
   const projects = state.projects.map((item) => (
     <li key={item.id} className="projects__thumb">
-      <Link to={`project/${item.id}`}>
+      <Link to={`project/${item.id}`} className="projects__link">
         <p>{item.title}</p>
       </Link>
     </li>

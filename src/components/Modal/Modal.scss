@@ -60,8 +60,9 @@
       border-left-color: vars.$gray;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: vars.$green;
-      opacity: 0.5;
+      // background-color: vars.$green;
+      border: 1px solid vars.$green;
+      opacity: 0.1;
     }
 	}
 }

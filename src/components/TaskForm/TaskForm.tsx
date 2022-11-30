@@ -106,20 +106,16 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           <label className="label">
             <span className="label__text">Status*:</span>
             <select {...register('status')} className="field">
-              <option value="queue">queue</option>
-              <option value="development">development</option>
-              <option value="done">done</option>
+              <option className="option" value="queue">
+                queue
+              </option>
+              <option className="option" value="development">
+                development
+              </option>
+              <option className="option" value="done">
+                done
+              </option>
             </select>
-          </label>
-          {/* Description */}
-          <label className="label">
-            <span className="label__text">Description:</span>
-            <textarea
-              rows={3}
-              {...register('description')}
-              className="field textarea"
-              placeholder="Some description"
-            ></textarea>
           </label>
         </div>
         <div className="form__col">
@@ -153,6 +149,16 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
         </div>
       </fieldset>
 
+      {/* Description */}
+      <label className="label">
+        <span className="label__text">Description:</span>
+        <textarea
+          rows={3}
+          {...register('description')}
+          className="field textarea"
+          placeholder="Some description"
+        ></textarea>
+      </label>
       <fieldset className="fieldset form__row">
         <label className="label upload btn">
           {upload ? `Change attachment ${uploadText}` : uploadText}
