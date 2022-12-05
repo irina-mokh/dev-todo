@@ -1,0 +1,35 @@
+@use '../../styles/vars';
+
+.footer {
+	border-top: 1px solid vars.$gray;
+	width: 100%;
+	padding: 0.3em 0;
+	color: vars.$gray;
+	.container {
+		display: flex;
+		justify-content: space-around;
+	}
+	
+	.gh {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: black;
+		filter: invert(43%) sepia(12%) saturate(268%) hue-rotate(215deg) brightness(95%) contrast(92%);
+		&:hover {
+			filter: invert(54%) sepia(100%) saturate(340%) hue-rotate(115deg) brightness(97%) contrast(95%);
+		}
+		&:active {
+			filter: invert(37%) sepia(43%) saturate(2979%) hue-rotate(143deg) brightness(99%) contrast(84%);
+		}
+		&__icon {
+			display: block;
+	
+			margin: 0 0.5em 0 0;
+		}
+		&__text {
+			display: block;
+		}
+	}
+}
+

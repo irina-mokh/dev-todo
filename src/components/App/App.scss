@@ -1,9 +1,11 @@
+@use '../../styles/vars';
+
 .app {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 	&__heading  {
 		margin: 0 0 0.5em 0;
 	}
 
-	&__main {
-		margin: 1em 0;
-	}
 }

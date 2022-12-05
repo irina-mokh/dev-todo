@@ -2,6 +2,7 @@
 @use './vars.scss';
 @use '../components/App/App.scss';
 @use '../components/Header/Header.scss';
+@use '../components/Home/Home.scss';
 @use '../components/Modal/Modal.scss';
 @use '../components/CreateProject/CreateProject.scss';
 @use '../components/Layout/Layout.scss';
@@ -16,3 +17,4 @@
 @use '../components/Comment/Comment.scss';
 @use '../components/AddComment/AddComment.scss';
 @use '../components/Search/Search.scss';
+@use '../components/Footer/Footer.scss';
