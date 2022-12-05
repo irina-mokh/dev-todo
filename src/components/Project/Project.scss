@@ -1,6 +1,7 @@
 @use '../../styles/vars';
 
 .project {
+	flex-grow: 1;
 	&__back {
 		display: block;
 		margin: 0.5em;
