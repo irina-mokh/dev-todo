@@ -31,6 +31,7 @@ export const Subtasks = (props: SubtasksProps) => {
           className="subtasks__field"
           id={`add-${taskId}`}
           placeholder="Add subtask..."
+          value={subInput}
           onChange={(e) => setSubInput(e.target.value)}
         ></input>
         <label

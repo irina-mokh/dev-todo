@@ -3,7 +3,7 @@
 .project {
 	flex-grow: 1;
 	&__back {
-		display: block;
+		display: inline-block;
 		margin: 0.5em;
 		color: vars.$gray;
 		text-decoration: none;

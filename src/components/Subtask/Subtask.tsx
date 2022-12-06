@@ -13,6 +13,7 @@ export const Subtask = (props: SubtaskProps) => {
   return (
     <li className="subtask">
       <input
+        className="subtask__checkbox"
         type="checkbox"
         checked={checked}
         onChange={(e) => {

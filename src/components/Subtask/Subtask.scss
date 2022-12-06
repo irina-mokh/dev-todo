@@ -5,8 +5,8 @@
 	display: flex;
 	align-items: center;
 	margin: 0 0 0.5em 0;
-	accent-color: vars.$darkGreen;
-	input[type="checkbox"] {
+	&__checkbox {
+		accent-color: vars.$darkGreen;
 		width: 1.3em;
 		height: 1.3em;
 		margin: 0 0.6em 0 0;
