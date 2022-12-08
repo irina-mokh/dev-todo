@@ -66,7 +66,9 @@ export const Column = ({ data, type }: ColumnProps) => {
           +
         </button>
       </header>
-      <ul className="column__list">{items}</ul>
+      <div className="column__list-wrapper">
+        <ul className="column__list">{items}</ul>
+      </div>
       {isAddTaskModal && (
         <Modal title="Create Task" close={closeModal}>
           <TaskForm item={initialTask} create={true} close={closeModal} />

@@ -15,7 +15,7 @@ export const Home = () => {
   };
 
   return (
-    <main className="home">
+    <main className="home main">
       <div className="container">
         <h1 className="app__heading">Projects</h1>
         <section>

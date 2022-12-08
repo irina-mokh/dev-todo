@@ -30,13 +30,13 @@ export const Project = () => {
   ));
   return (
     <DndProvider backend={HTML5Backend}>
-      <main className="project">
+      <main className="project main">
         <div className="container">
           <header>
             <Link to="/" className="link">
               <p className="project__back">{`< Back`}</p>
             </Link>
-            <h1>{project?.title}</h1>
+            <h1 className="app__heading">{project?.title}</h1>
           </header>
           <ul className="project__columns">{columns}</ul>
         </div>

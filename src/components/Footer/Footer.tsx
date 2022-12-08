@@ -8,7 +8,7 @@ export const Footer = () => {
           <img src={GithubIcon} width={26} className="gh__icon"></img>
           <span className="gh__text">irina-mokh</span>
         </a>
-        <span>2022</span>
+        <span className="footer__text">2022</span>
       </div>
     </footer>
   );

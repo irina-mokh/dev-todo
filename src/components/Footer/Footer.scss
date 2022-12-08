@@ -3,11 +3,13 @@
 .footer {
 	border-top: 1px solid vars.$gray;
 	width: 100%;
+	height: 40px;
 	padding: 0.3em 0;
 	color: vars.$gray;
 	.container {
 		display: flex;
 		justify-content: space-around;
+		align-items: center;
 	}
 	
 	.gh {

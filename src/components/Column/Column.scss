@@ -2,9 +2,10 @@
 
 .column {
 	border: 1px solid vars.$gray;
+	height: 100%;
 	padding: 1em;
 	transition: all 0.2s ease;
-	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.4);
 	@media (max-width: vars.$mediumScreen) {
 		font-size: 12px;
 	}
@@ -34,8 +35,14 @@
 		margin: 0 0 1em 0;
 	}
 
+	&__list-wrapper {
+		height: 90%;
+		overflow-y: auto;
+	}
+
 	&__list {
 		display: flex;
 		flex-direction: column;
+		padding: 0 5px 0 0;
 	}
 }
