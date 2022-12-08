@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  
+  max-width: 50vw;
 	background-color: vars.$dark;
   box-shadow: 0 0 5px rgba(58, 58, 58, 0.616);
 	animation: 0.2s ease-out 0s 1 slideInFromBottom;
@@ -60,7 +60,6 @@
       border-left-color: vars.$gray;
     }
     &::-webkit-scrollbar-thumb {
-      // background-color: vars.$green;
       border: 1px solid vars.$green;
       opacity: 0.1;
     }

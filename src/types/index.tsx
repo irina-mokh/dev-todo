@@ -22,8 +22,8 @@ export interface ITask {
   created: string;
   deadline: string;
   priority: number;
-  file: string;
-  fileName: string;
+  files: Array<string>;
+  fileNames: Array<string>;
   status: Status;
   subTasks: ISubtasks;
   comments: Array<IComment>;

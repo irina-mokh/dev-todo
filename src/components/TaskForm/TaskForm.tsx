@@ -26,38 +26,51 @@ export interface ITaskForm {
   duration: string;
   deadline: string;
   priority: number;
-  fileName: string;
+  fileNames: Array<string>;
   status: Status;
   subTasks: ISubtasks;
-  file: string;
+  files: Array<string>;
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
-  const { file, fileName, comments, created, subTasks, id, priority } = item;
+  const { files, fileNames, comments, created, subTasks, id, priority } = item;
   const dispatch: AppDispatch = useDispatch();
   const [fileErr, setFileErr] = useState('');
-  const [uploadText, setUploadText] = useState(fileName || 'Attachment(max 1MB)...');
-  const [upload, setUpload] = useState(file);
-  const [subs, setSubs] = useState<ISubtasks>(subTasks);
+  const [uploadNames, setUploadNames] = useState(fileNames);
+  const [uploads, setUploads] = useState([...files]);
+  const [subs, setSubs] = useState<ISubtasks>([...subTasks]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     setFileErr('');
-    if (files) {
-      if (files[0].size > 1048487) {
+    async function handleFile(file: File) {
+      if (file.size > 1048487) {
         setFileErr('File is too big');
       }
-      setUpload(String(await readFileAsync(files[0])));
-      setUploadText(files[0].name);
+      const fileStr = String(await readFileAsync(file));
+      setUploads((state) => [...state, fileStr]);
+      setUploadNames((state) => [...state, file.name]);
+    }
+    if (files) {
+      Array.from(files).forEach(async (file) => await handleFile(file));
     }
   };
+
+  let attaches;
+  if (uploads.length) {
+    attaches = uploads.map((item, i) => (
+      <li key={i} className="file">
+        <a href={item}>{uploadNames[i]}</a>
+      </li>
+    ));
+  }
 
   const {
     handleSubmit,
     register,
     formState: { isValid },
   } = useForm<ITaskForm>({
-    defaultValues: { ...item, file: upload },
+    defaultValues: { ...item, files: [...uploads] },
   });
 
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
@@ -65,8 +78,8 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       ...data,
       comments: [...item.comments],
       created: created || String(new Date()),
-      file: upload,
-      fileName: upload ? uploadText : '',
+      files: uploads,
+      fileNames: uploads.length ? uploadNames : [],
       subTasks: subs,
     };
 
@@ -87,7 +100,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
         <div className="form__col">
           {/* Title */}
           <label className="label">
-            <span className="label__text">Title*:</span>
+            <span className="form__text">Title*:</span>
             <input
               type="text"
               {...register('title', { required: true })}
@@ -97,12 +110,12 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           </label>
           {/* Priority */}
           <label className="label">
-            <span className="label__text">Priority:</span>
+            <span className="form__text">Priority:</span>
             <input type="number" {...register('priority', { required: true })} className="field" />
           </label>
           {/* Status */}
           <label className="label">
-            <span className="label__text">Status*:</span>
+            <span className="form__text">Status*:</span>
             <select {...register('status')} className="field">
               <option className="option" value="queue">
                 queue
@@ -119,7 +132,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
         <div className="form__col">
           {/* Deadline */}
           <label className="label">
-            <span className="label__text">Deadline*:</span>
+            <span className="form__text">Deadline*:</span>
             <input
               type="date"
               {...register('deadline', { required: true })}
@@ -128,14 +141,11 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           </label>
           {/* In progress */}
           {!create && (
-            <span className="label__text">
-              In progress:
-              <span className="duration">{getDuration(new Date(created))}</span>
-            </span>
+            <span className="duration">{`In progress: ${getDuration(new Date(created))}`}</span>
           )}
           {/* Subtasks */}
           <label className="label form__subtasks">
-            <span className="label__text">Subtasks:</span>
+            <span className="form__text">Subtasks:</span>
             <Subtasks
               data={subs}
               taskId={id}
@@ -149,7 +159,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
 
       {/* Description */}
       <label className="label">
-        <span className="label__text">Description:</span>
+        <span className="form__text">Description:</span>
         <textarea
           rows={3}
           {...register('description')}
@@ -157,30 +167,26 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           placeholder="Some description"
         ></textarea>
       </label>
-      <fieldset className="fieldset form__row">
-        <label className="label upload btn">
-          {upload ? `Change attachment ${uploadText}` : uploadText}
-          <input type="file" {...register('file')} onChange={handleUpload}></input>
-        </label>
-        {upload && (
-          <p>
-            Attachments:
-            <a href={upload} download className="file">
-              {uploadText}
-            </a>
-          </p>
-        )}
+      <fieldset className="fieldset attaches">
+        <div className="form__fieldset">
+          <legend className="form__text">Attachments:</legend>
+          <label className="btn upload">
+            Add
+            <input type="file" {...register('files')} onChange={handleUpload}></input>
+          </label>
+        </div>
+        {uploads.length > 0 && <ul className="attaches__list">{attaches}</ul>}
       </fieldset>
       {fileErr && <p className="error">{fileErr}</p>}
 
-      <div className="form__row">
+      <fieldset className=" fieldset form__fieldset">
         <input
           type="submit"
           value={create ? 'Add' : 'Save'}
           className="submit btn"
           disabled={!isValid}
         ></input>
-      </div>
+      </fieldset>
       {!create && <Comments data={comments} taskId={id} />}
     </form>
   );
