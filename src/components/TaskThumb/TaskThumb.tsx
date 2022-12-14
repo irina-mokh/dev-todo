@@ -28,8 +28,7 @@ export const TaskThumb = (task: ITask) => {
       setIsLate(false);
     }
   }, [deadline]);
-
-
+  
   // ref for DnD task
   // eslint-disable-next-line prettier/prettier
   const ref = useRef() as MutableRefObject<HTMLLIElement>;
@@ -54,7 +53,6 @@ export const TaskThumb = (task: ITask) => {
         };
         dispatch(editTask(newTask));
         dispatch(prioritize(newTask));
-
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

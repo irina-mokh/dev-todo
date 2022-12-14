@@ -37,13 +37,12 @@ export const mainSlice = createSlice({
       };
     },
     editTask: (state, { payload }) => {
-      const { tasks } = state;
+      const tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
       const i = tasks.findIndex((item) => item.id == payload.id);
-      const preserve = [...tasks];
-      preserve[i] = payload;
+      tasks[i] = payload;
       return {
         ...state,
-        tasks: [...preserve],
+        tasks: [...tasks],
       };
     },
     prioritize: (state, action) => {
@@ -61,7 +60,49 @@ export const mainSlice = createSlice({
         }
         return task;
       });
+      // console.log('prioritize', action.payload);
+      // const { task: activeTask, col: activeCol } = action.payload;
+      // const tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
 
+      // console.log(tasks);
+      // let col = tasks.filter(
+      //   (task) => activeCol == task.status && task.projectId == activeTask.projectId
+      // );
+      // console.log(col);
+      // // update state with edited task
+      // col = col.map((item) => {
+      //   if (item.id == activeTask.id) {
+      //     item = { ...activeTask };
+      //   }
+      //   return item;
+      // });
+
+      // console.log('before sort:', col);
+      // col.sort((a, b) => {
+      //   if (a.id == activeTask.id) {
+      //     console.log('active task', a);
+      //     return 1;
+      //   } else {
+      //     // console.log('else', a, b, b.priority - a.priority);
+      //     return a.priority - b.priority;
+      //   }
+      // });
+      // console.log('after sort:', col);
+
+      // col = col.map((colTask: ITask, i) => {
+      //   colTask.priority = i;
+      //   return colTask;
+      // });
+
+      // const newTasks = tasks.map((task) => {
+      //   col.forEach((colTask) => {
+      //     // set priority according to index of Column's array of tasks
+      //     if (task.id == colTask.id) {
+      //       task = { ...colTask };
+      //     }
+      //   });
+      //   return task;
+      // });
       return {
         ...state,
         tasks: [...newTasks],
@@ -105,7 +146,7 @@ export const mainSlice = createSlice({
     },
   },
 });
-export const { createProject, createTask, editTask, deleteTask, prioritize, addComment } =
+export const { createProject, createTask, editTask, deleteTask, addComment, prioritize } =
   mainSlice.actions;
 
 export default mainSlice.reducer;

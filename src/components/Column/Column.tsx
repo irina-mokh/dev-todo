@@ -40,13 +40,17 @@ export const Column = ({ data, type }: ColumnProps) => {
   // Drop task
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'task',
-    drop: async (drag: ITask) => {
+    drop: async (drag: ITask, monitor) => {
+      if (monitor.didDrop()) {
+        return;
+      }
+      // console.log('col drop');
       const newTask = { ...drag, status: type, priority: 0 };
       dispatch(editTask(newTask));
-      dispatch(prioritize(newTask));
+      dispatch(prioritize({ task: newTask, col: type }));
     },
     collect: (monitor: DropTargetMonitor) => ({
-      isOver: !!monitor.isOver(),
+      isOver: !!monitor.isOver({ shallow: true }),
       canDrop: !!monitor.canDrop(),
     }),
   }));
