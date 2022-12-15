@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from '../../store';
-import { createTask, editTask, prioritize } from '../../store/reducer';
+import { createTask, editTask } from '../../store/reducer';
 import { getDuration, readFileAsync } from '../../utils';
 
 import { ISubtasks, ITask, Status } from '../../types';
@@ -89,7 +89,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       dispatch(editTask(newTodo));
     }
     if (create || priority !== newTodo.priority) {
-      dispatch(prioritize(newTodo));
+      // dispatch(prioritize(newTodo));
     }
     close();
   };

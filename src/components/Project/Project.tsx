@@ -1,31 +1,38 @@
 import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { useEffect } from 'react';
+import { AppDispatch } from '../../store';
 
 import { IState, ITask, Status } from '../../types';
 import { Column } from '../Column/Column';
+import { getProject } from '../../store/reducer';
 
 export const Project = () => {
   const { id } = useParams();
-  const { tasks, projects } = useSelector((state: IState) => state.main);
+  const dispatch: AppDispatch = useDispatch();
+  const {
+    projects,
+    tasks,
+    current: { queue, development, done },
+  } = useSelector((state: IState) => state.main);
+
+  useEffect(() => {
+    dispatch(getProject(id));
+  }, [tasks]);
+
   const project = projects.find((pr) => pr.id == id);
-
-  const currentTasks = tasks.filter((task) => task.projectId == id);
-
-  const queue = currentTasks?.filter(({ status }) => status === 'queue');
-  const dev = currentTasks?.filter(({ status }) => status === 'development');
-  const done = currentTasks?.filter(({ status }) => status === 'done');
 
   const STATUSES: Array<{ name: Status, data: ITask[] }> = [
     { name: 'queue', data: queue },
-    { name: 'development', data: dev },
+    { name: 'development', data: development },
     { name: 'done', data: done },
   ];
 
   const columns = STATUSES.map((status) => (
     <li className="project__column" key={status.name}>
-      <Column data={status.data} type={status.name} />
+      <Column type={status.name} />
     </li>
   ));
   return (

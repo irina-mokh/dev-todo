@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { deleteTask, editTask, prioritize } from '../../store/reducer';
+import { deleteTask, editTask, moveTask } from '../../store/reducer';
 
 import { ITask } from '../../types';
 import { Modal } from '../Modal/Modal';
@@ -51,8 +51,8 @@ export const TaskThumb = (task: ITask) => {
           priority: dropIndex,
           status: dragStatus,
         };
+        dispatch(moveTask({drag: drag, drop: task}));
         dispatch(editTask(newTask));
-        dispatch(prioritize(newTask));
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

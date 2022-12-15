@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { editTask, INITIAL_TASK, prioritize } from '../../store/reducer';
+import { editTask, INITIAL_TASK } from '../../store/reducer';
 
 import { IState, ITask, Status } from '../../types';
 
@@ -13,14 +13,17 @@ import { useParams } from 'react-router-dom';
 import { TaskThumb } from '../TaskThumb/TaskThumb';
 
 type ColumnProps = {
-  data: Array<ITask>,
+  // data: Array<ITask>,
   type: Status,
 };
 
-export const Column = ({ data, type }: ColumnProps) => {
+export const Column = ({ type }: ColumnProps) => {
   const { id } = useParams();
 
-  const { tasks } = useSelector((state: IState) => state.main);
+  const { tasks, current } = useSelector((state: IState) => state.main);
+
+  const data = current[type];
+
   const items = data.map((item) => <TaskThumb {...item} key={item.id} />);
 
   const initialTask = {
@@ -47,7 +50,7 @@ export const Column = ({ data, type }: ColumnProps) => {
       // console.log('col drop');
       const newTask = { ...drag, status: type, priority: 0 };
       dispatch(editTask(newTask));
-      dispatch(prioritize({ task: newTask, col: type }));
+      // dispatch(prioritize({ task: newTask, col: type }));
     },
     collect: (monitor: DropTargetMonitor) => ({
       isOver: !!monitor.isOver({ shallow: true }),

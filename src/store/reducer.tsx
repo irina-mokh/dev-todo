@@ -18,6 +18,11 @@ export const INITIAL_TASK = {
 const initialState: IStateMain = {
   tasks: [],
   projects: [],
+  current: {
+    queue: [],
+    development: [],
+    done: [],
+  },
 };
 
 export const mainSlice = createSlice({
@@ -30,82 +35,96 @@ export const mainSlice = createSlice({
         projects: [...state.projects, action.payload],
       };
     },
-    createTask: (state, action) => {
+    getProject: (state, action) => {
+      let tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
+      tasks = tasks.filter((task) => task.projectId == action.payload);
+
+      const queue = tasks.filter(({ status }) => status === 'queue');
+      const development = tasks.filter(({ status }) => status === 'development');
+      const done = tasks.filter(({ status }) => status === 'done');
+
+      // sort data by priority
+      queue.sort((a, b) => a.priority - b.priority);
+      development.sort((a, b) => a.priority - b.priority);
+      done.sort((a, b) => a.priority - b.priority);
+
+      // set priorities by index
+      // queue.map((item, i) => (item.priority = i));
+      // development.map((item, i) => (item.priority = i));
+      // done.map((item, i) => (item.priority = i));
+
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        current: { queue, development, done },
+      };
+    },
+    createTask: (state, action) => {
+      const newTask: ITask = action.payload;
+      return {
+        ...state,
+        tasks: [...state.tasks, newTask],
       };
     },
     editTask: (state, { payload }) => {
       const tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
       const i = tasks.findIndex((item) => item.id == payload.id);
       tasks[i] = payload;
+
       return {
         ...state,
         tasks: [...tasks],
       };
     },
-    prioritize: (state, action) => {
-      const active: ITask = action.payload;
-      const tasks = JSON.parse(JSON.stringify(state.tasks));
-      const newTasks = tasks.filter((task: ITask) => {
-        if (
-          // check all tasks for same project, status-board and higher priority
-          task.projectId == active.projectId &&
-          task.status == active.status &&
-          task.priority >= active.priority &&
-          task.id !== active.id
-        ) {
-          task.priority++;
+    moveTask: (state, { payload }) => {
+      //TODO: move task
+      const { drag, drop } = payload;
+      const current = JSON.parse(JSON.stringify(state.current));
+
+      const from: ITask[] = current[drag.status];
+      const to: ITask[] = current[drop.status];
+      console.log('from:', from);
+      console.log('to:', to);
+
+      const f = drag.priority;
+      const t = drop.priority;
+
+      console.log(f, t);
+      const task = from[f];
+
+      //add task
+      to.splice(t, 0, task);
+
+      if (drag.status == drop.status) {
+        // to == from
+        //delete task
+        if (t < f) {
+          from.splice(f + 1, 1);
+        } else {
+          from.splice(f, 1);
         }
-        return task;
+      } else {
+        console.log('different columns');
+        to.splice(t, 0, task);
+      }
+
+      to.forEach((task, i) => {
+        task.priority = i;
       });
-      // console.log('prioritize', action.payload);
-      // const { task: activeTask, col: activeCol } = action.payload;
-      // const tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
+      console.log('sliced task', task);
 
-      // console.log(tasks);
-      // let col = tasks.filter(
-      //   (task) => activeCol == task.status && task.projectId == activeTask.projectId
-      // );
-      // console.log(col);
-      // // update state with edited task
-      // col = col.map((item) => {
-      //   if (item.id == activeTask.id) {
-      //     item = { ...activeTask };
-      //   }
-      //   return item;
-      // });
+      console.log('from:', from);
+      console.log('to:', to);
 
-      // console.log('before sort:', col);
-      // col.sort((a, b) => {
-      //   if (a.id == activeTask.id) {
-      //     console.log('active task', a);
-      //     return 1;
-      //   } else {
-      //     // console.log('else', a, b, b.priority - a.priority);
-      //     return a.priority - b.priority;
-      //   }
-      // });
-      // console.log('after sort:', col);
-
-      // col = col.map((colTask: ITask, i) => {
-      //   colTask.priority = i;
-      //   return colTask;
-      // });
-
-      // const newTasks = tasks.map((task) => {
-      //   col.forEach((colTask) => {
-      //     // set priority according to index of Column's array of tasks
-      //     if (task.id == colTask.id) {
-      //       task = { ...colTask };
-      //     }
-      //   });
-      //   return task;
-      // });
+      const newCurrent = {
+        ...state.current,
+        [drop.status]: [...to],
+      };
+      // if (drag.status !== drop.status) {
+      //   newCurrent[drag.status] = [...from];
+      // }
       return {
         ...state,
-        tasks: [...newTasks],
+        current: { ...newCurrent },
       };
     },
     deleteTask: (state, { payload }) => {
@@ -146,7 +165,7 @@ export const mainSlice = createSlice({
     },
   },
 });
-export const { createProject, createTask, editTask, deleteTask, addComment, prioritize } =
+export const { createProject, getProject, createTask, editTask, deleteTask, addComment, moveTask } =
   mainSlice.actions;
 
 export default mainSlice.reducer;

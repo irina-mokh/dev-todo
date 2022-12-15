@@ -1,6 +1,11 @@
 export interface IStateMain {
   tasks: Array<ITask>;
   projects: Array<IProject>;
+  current: {
+    queue: Array<ITask>,
+    development: Array<ITask>,
+    done: Array<ITask>,
+  };
 }
 
 export interface IState {
