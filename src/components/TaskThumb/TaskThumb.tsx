@@ -19,6 +19,10 @@ export const TaskThumb = (task: ITask) => {
     setIsModal(false);
   };
 
+  useEffect(() => {
+    dispatch(editTask({...task}));
+  }, [title, id, priority, status, deadline]);
+
   const [isLate, setIsLate] = useState(false);
   useEffect(() => {
     const today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
@@ -38,21 +42,11 @@ export const TaskThumb = (task: ITask) => {
     () => ({
       accept: 'task',
       drop: async (drag: ITask) => {
-        const dragIndex = drag.priority;
-        const dropIndex = task.priority;
-        const dragStatus = drag.status;
-        const dropStatus = task.status;
-
-        if (dragStatus === dropStatus && dropIndex === dragIndex) {
+        if (drag.status === task.status && drag.priority === task.priority) {
           return;
         }
-        const newTask = {
-          ...drag,
-          priority: dropIndex,
-          status: dragStatus,
-        };
+
         dispatch(moveTask({drag: drag, drop: task}));
-        dispatch(editTask(newTask));
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

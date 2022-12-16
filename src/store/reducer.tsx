@@ -48,11 +48,6 @@ export const mainSlice = createSlice({
       development.sort((a, b) => a.priority - b.priority);
       done.sort((a, b) => a.priority - b.priority);
 
-      // set priorities by index
-      // queue.map((item, i) => (item.priority = i));
-      // development.map((item, i) => (item.priority = i));
-      // done.map((item, i) => (item.priority = i));
-
       return {
         ...state,
         current: { queue, development, done },
@@ -76,52 +71,39 @@ export const mainSlice = createSlice({
       };
     },
     moveTask: (state, { payload }) => {
-      //TODO: move task
       const { drag, drop } = payload;
       const current = JSON.parse(JSON.stringify(state.current));
 
       const from: ITask[] = current[drag.status];
       const to: ITask[] = current[drop.status];
-      console.log('from:', from);
-      console.log('to:', to);
 
       const f = drag.priority;
       const t = drop.priority;
 
-      console.log(f, t);
-      const task = from[f];
-
+      const task = { ...drag, priority: t, status: drop.status };
+      //delete task
+      from.splice(f, 1);
       //add task
       to.splice(t, 0, task);
-
-      if (drag.status == drop.status) {
-        // to == from
-        //delete task
-        if (t < f) {
-          from.splice(f + 1, 1);
-        } else {
-          from.splice(f, 1);
-        }
-      } else {
-        console.log('different columns');
-        to.splice(t, 0, task);
-      }
 
       to.forEach((task, i) => {
         task.priority = i;
       });
-      console.log('sliced task', task);
 
-      console.log('from:', from);
-      console.log('to:', to);
-
-      const newCurrent = {
+      let newCurrent = {
         ...state.current,
         [drop.status]: [...to],
       };
-      // if (drag.status !== drop.status) {
-      //   newCurrent[drag.status] = [...from];
-      // }
+
+      if (drag.status !== drop.status) {
+        from.forEach((task, i) => {
+          task.priority = i;
+        });
+        newCurrent = {
+          ...newCurrent,
+          [drag.status]: [...from],
+        };
+      }
       return {
         ...state,
         current: { ...newCurrent },

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { editTask, INITIAL_TASK } from '../../store/reducer';
+import { INITIAL_TASK, moveTask } from '../../store/reducer';
 
 import { IState, ITask, Status } from '../../types';
 
@@ -13,7 +13,6 @@ import { useParams } from 'react-router-dom';
 import { TaskThumb } from '../TaskThumb/TaskThumb';
 
 type ColumnProps = {
-  // data: Array<ITask>,
   type: Status,
 };
 
@@ -47,10 +46,8 @@ export const Column = ({ type }: ColumnProps) => {
       if (monitor.didDrop()) {
         return;
       }
-      // console.log('col drop');
       const newTask = { ...drag, status: type, priority: 0 };
-      dispatch(editTask(newTask));
-      // dispatch(prioritize({ task: newTask, col: type }));
+      dispatch(moveTask({ drag: drag, drop: newTask }));
     },
     collect: (monitor: DropTargetMonitor) => ({
       isOver: !!monitor.isOver({ shallow: true }),
