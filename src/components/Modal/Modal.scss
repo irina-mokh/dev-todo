@@ -23,6 +23,9 @@
   flex-direction: column;
   max-height: 100%;
   max-width: 50vw;
+  @media (max-width: vars.$mediumScreen) {
+    max-width: 90vw;
+  }
 	background-color: vars.$dark;
   box-shadow: 0 0 5px rgba(58, 58, 58, 0.616);
 	animation: 0.2s ease-out 0s 1 slideInFromBottom;
