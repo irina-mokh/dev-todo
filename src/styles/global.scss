@@ -63,6 +63,7 @@ body {
   font-weight: 700;
   margin: 0 auto;
   transition: color 0.3s ease;
+  cursor: pointer;
 
   &:disabled {
     border-color: vars.$gray;
@@ -83,6 +84,7 @@ body {
   background-color: transparent;
   border: none;
   opacity: 0.4;
+  padding: 0.5em;
   cursor: pointer;
   font-size: 1.2em;
   line-height: 1.2em;

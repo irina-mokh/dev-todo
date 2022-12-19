@@ -12,8 +12,7 @@
 
 .popup-wrapper {
   display: flex;
-  padding: 2em 0 1em 0;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   height: 90%;
 }
@@ -43,7 +42,8 @@
 	&__header {
     display: flex;
     justify-content: space-between;
-    padding: 0.5em 1em;
+    align-items: center;
+    padding: 0 1em;
 		font-weight: 700;
     background-color: vars.$darkGreen;
     color: vars.$white;

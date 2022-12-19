@@ -7,11 +7,13 @@ import { deleteTask, editTask, moveTask } from '../../store/reducer';
 
 import { ITask } from '../../types';
 import { Modal } from '../Modal/Modal';
+import { ConfirmDialog } from '../ConfirmDialog/ConfirmDialog';
 import { TaskForm } from '../TaskForm/TaskForm';
 
 export const TaskThumb = (task: ITask) => {
   const { title, id, priority, status, deadline } = task;
   const [isModal, setIsModal] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -26,11 +28,7 @@ export const TaskThumb = (task: ITask) => {
   const [isLate, setIsLate] = useState(false);
   useEffect(() => {
     const today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
-    if (new Date(today) > new Date(deadline)) {
-      setIsLate(true);
-    } else {
-      setIsLate(false);
-    }
+    setIsLate(new Date(today) > new Date(deadline));
   }, [deadline]);
   
   // ref for DnD task
@@ -38,7 +36,7 @@ export const TaskThumb = (task: ITask) => {
   const ref = useRef() as MutableRefObject<HTMLLIElement>;
 
   // Drop task
-  const [{ isOver  }, drop] = useDrop(
+  const [{ isOver }, drop] = useDrop(
     () => ({
       accept: 'task',
       drop: async (drag: ITask) => {
@@ -77,7 +75,7 @@ export const TaskThumb = (task: ITask) => {
       } ${isOver ? 'task_highlight' : ''} ${isDragging ? 'task_invisible' : ''}`}
       ref={ref}
       onClick={() => {
-        if (!isModal) {
+        if (!isModal && !isConfirm) {
           setIsModal(true);
         }
       }}
@@ -87,8 +85,10 @@ export const TaskThumb = (task: ITask) => {
       <p className="task__deadline">{new Date(deadline).toLocaleString().slice(0, 5)}</p>
       <button
         className="close-btn"
-        onClick={() => {
-          dispatch(deleteTask(id));
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsConfirm(true);
         }}
         aria-label="delete"
       >
@@ -99,6 +99,7 @@ export const TaskThumb = (task: ITask) => {
           <TaskForm close={closeModal} item={task} create={false} />
         </Modal>
       )}
+      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} setOpen={setIsConfirm} onConfirm={() => dispatch(deleteTask(id))}></ConfirmDialog>}
     </li>
   );
 };

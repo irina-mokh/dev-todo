@@ -33,7 +33,7 @@ export interface ITaskForm {
 }
 
 export const TaskForm = ({ close, create, item }: TaskFormProps) => {
-  const { files, fileNames, comments, created, subTasks, id, priority } = item;
+  const { files, fileNames, comments, created, subTasks, id } = item;
   const dispatch: AppDispatch = useDispatch();
   const [fileErr, setFileErr] = useState('');
   const [uploadNames, setUploadNames] = useState(fileNames);
@@ -87,9 +87,6 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       dispatch(createTask(newTodo));
     } else {
       dispatch(editTask(newTodo));
-    }
-    if (create || priority !== newTodo.priority) {
-      // dispatch(prioritize(newTodo));
     }
     close();
   };
