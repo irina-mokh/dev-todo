@@ -48,6 +48,11 @@ export const mainSlice = createSlice({
       development.sort((a, b) => a.priority - b.priority);
       done.sort((a, b) => a.priority - b.priority);
 
+      // set priority
+      queue.map((a, i) => (a.priority = i));
+      development.map((a, i) => (a.priority = i));
+      done.map((a, i) => (a.priority = i));
+
       return {
         ...state,
         current: { queue, development, done },

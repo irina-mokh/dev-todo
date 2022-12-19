@@ -14,12 +14,13 @@ export const Project = () => {
   const dispatch: AppDispatch = useDispatch();
   const {
     projects,
+    tasks,
     current: { queue, development, done },
   } = useSelector((state: IState) => state.main);
 
   useEffect(() => {
     dispatch(getProject(id));
-  }, []);
+  }, [tasks]);
 
   const project = projects.find((pr) => pr.id == id);
 
