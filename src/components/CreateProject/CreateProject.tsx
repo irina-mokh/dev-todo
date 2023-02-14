@@ -1,14 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { IState } from '../../types';
 import { AppDispatch } from '../../store';
 import { createProject } from '../../store/reducer';
 
 type CreateProjectProps = {
-  id: string,
   close: () => void,
 };
 export const CreateProject = (props: CreateProjectProps) => {
   const dispatch: AppDispatch = useDispatch();
+  const projectsCount = useSelector((state: IState) => state.main).length;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ export const CreateProject = (props: CreateProjectProps) => {
 
     dispatch(
       createProject({
-        id: props.id,
+        id: `pr${projectsCount}`,
         title: data.get('title'),
         tasks: { 'queue': [], 'development': [], 'done': []}
       })

@@ -1,13 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { IState } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { CreateProject } from '../CreateProject/CreateProject';
 import { ProjectList } from '../ProjectList/ProjectList';
 
 export const Home = () => {
-  const state = useSelector((state: IState) => state.main);
   const [isCreateProjectModal, setIsCreateProjectModal] = useState(false);
 
   const close = () => {
@@ -30,7 +27,7 @@ export const Home = () => {
           </button>
           {isCreateProjectModal && (
             <Modal title="Create project" close={close}>
-              <CreateProject id={String(state.projects.length)} close={close} />
+              <CreateProject close={close} />
             </Modal>
           )}
         </section>

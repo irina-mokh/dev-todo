@@ -99,7 +99,7 @@ export const TaskThumb = (task: ITask) => {
           <TaskForm close={closeModal} item={task} create={false} />
         </Modal>
       )}
-      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} setOpen={setIsConfirm} onConfirm={() => dispatch(deleteTask(id))}></ConfirmDialog>}
+      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} setOpen={setIsConfirm} onConfirm={() => dispatch(deleteTask(task))}></ConfirmDialog>}
     </li>
   );
 };

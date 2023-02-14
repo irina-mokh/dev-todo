@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { IState } from '../../types';
 
 export const ProjectList = () => {
-  const state = useSelector((state: IState) => state.main);
+  const store = [...useSelector((state: IState) => state.main)];
 
-  const projects = state.projects.map((item) => (
+  const projects = store.map((item) => (
     <li key={item.id} className="projects__thumb">
       <Link to={`project/${item.id}`} className="projects__link">
         <p>{item.title}</p>

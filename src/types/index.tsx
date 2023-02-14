@@ -1,15 +1,5 @@
-export interface IStateMain {
-  tasks: Array<ITask>;
-  projects: Array<IProject>;
-  current: {
-    queue: Array<ITask>,
-    development: Array<ITask>,
-    done: Array<ITask>,
-  };
-}
-
 export interface IState {
-  main: IStateMain;
+  main: Array<IProject>;
 }
 
 export interface IComment {
@@ -47,4 +37,11 @@ export type Status = 'queue' | 'development' | 'done';
 export interface IProject {
   id: string;
   title: string;
+  tasks: ICurrent;
 }
+
+export type ICurrent = {
+  queue: Array<ITask>,
+  development: Array<ITask>,
+  done: Array<ITask>,
+};

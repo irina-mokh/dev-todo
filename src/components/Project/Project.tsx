@@ -1,33 +1,20 @@
 import { Link, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import { useEffect } from 'react';
-import { AppDispatch } from '../../store';
-
-import { IState, ITask, Status } from '../../types';
+import { IState, Status } from '../../types';
 import { Column } from '../Column/Column';
-import { getProject } from '../../store/reducer';
 
 export const Project = () => {
   const { id } = useParams();
-  const dispatch: AppDispatch = useDispatch();
-  const {
-    projects,
-    tasks,
-    current: { queue, development, done },
-  } = useSelector((state: IState) => state.main);
+  const store = useSelector((state: IState) => state.main);
 
-  useEffect(() => {
-    dispatch(getProject(id));
-  }, [tasks]);
+  const project = store.find((pr) => pr.id == id);
 
-  const project = projects.find((pr) => pr.id == id);
-
-  const STATUSES: Array<{ name: Status, data: ITask[] }> = [
-    { name: 'queue', data: queue },
-    { name: 'development', data: development },
-    { name: 'done', data: done },
+  const STATUSES: Array<{ name: Status }> = [
+    { name: 'queue' },
+    { name: 'development' },
+    { name: 'done' },
   ];
 
   const columns = STATUSES.map((status) => (

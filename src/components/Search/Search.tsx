@@ -5,7 +5,13 @@ import { useSelector } from 'react-redux';
 export const Search = () => {
   const [results, setResults] = useState<Array<ITask>>([]);
 
-  const tasks = useSelector((state: IState) => state.main.tasks);
+  const store = [...useSelector((state: IState) => state.main)];
+
+  const tasks: ITask[] = [];
+  store.forEach((project) => {
+    tasks.push(...project.tasks.queue, ...project.tasks.development, ...project.tasks.done);
+  });
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const query = e.target.value;

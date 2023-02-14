@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { INITIAL_TASK, moveTask } from '../../store/reducer';
+import { INITIAL_TASK, moveTask, sortColumn } from '../../store/reducer';
 
 import { IState, ITask, Status } from '../../types';
 
@@ -17,20 +17,22 @@ type ColumnProps = {
 };
 
 export const Column = ({ type }: ColumnProps) => {
-  const { id } = useParams();
+  const projectId = useParams().id;
 
-  const { tasks, current } = useSelector((state: IState) => state.main);
-
-  const data = current[type];
-
-  const items = data.map((item) => <TaskThumb {...item} key={item.id} />);
+  const store = useSelector((state: IState) => state.main);
+  const data = store.find((pr) => pr.id === projectId)?.tasks[type];
+  const items = data?.map((item) => <TaskThumb {...item} key={item.id} />);
 
   const initialTask = {
     ...INITIAL_TASK,
-    projectId: id ? id : '-',
+    id: `${projectId}|task${data?.length}`,
+    projectId: projectId ? projectId : '-',
     status: type,
-    id: String(tasks.length),
   };
+
+  useEffect(() => {
+    dispatch(sortColumn({ status: type, projectId }));
+  }, []);
 
   const [isAddTaskModal, setIsAddTaskModal] = useState(false);
   const closeModal = () => {

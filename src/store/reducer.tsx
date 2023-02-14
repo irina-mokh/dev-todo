@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IComment, IStateMain, ITask } from '../types';
+import { getIndexes, getStore } from '../utils';
+import { IComment, ITask, IProject, ICurrent } from '../types';
 
 export const INITIAL_TASK = {
   id: '',
@@ -15,69 +16,48 @@ export const INITIAL_TASK = {
   subTasks: [],
   comments: [],
 };
-const initialState: IStateMain = {
-  tasks: [],
-  projects: [],
-  current: {
-    queue: [],
-    development: [],
-    done: [],
-  },
-};
+const initialState: Array<IProject> = [];
 
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    createProject: (state, action) => {
-      return {
-        ...state,
-        projects: [...state.projects, action.payload],
-      };
+    createProject: (state, { payload }) => {
+      const store = getStore(state);
+      store.push(payload);
+      return store;
     },
-    getProject: (state, action) => {
-      let tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
-      tasks = tasks.filter((task) => task.projectId == action.payload);
+    sortColumn: (state, { payload }) => {
+      const { status, projectId }: ITask = payload;
+      const { store, p } = getIndexes({ state, projectId });
 
-      const queue = tasks.filter(({ status }) => status === 'queue');
-      const development = tasks.filter(({ status }) => status === 'development');
-      const done = tasks.filter(({ status }) => status === 'done');
+      const preservedTasks = store[p].tasks[status].sort((a, b) => a.priority - b.priority);
+      preservedTasks.map((a, i) => (a.priority = i));
 
-      // sort data by priority
-      queue.sort((a, b) => a.priority - b.priority);
-      development.sort((a, b) => a.priority - b.priority);
-      done.sort((a, b) => a.priority - b.priority);
-
-      // set priority
-      queue.map((a, i) => (a.priority = i));
-      development.map((a, i) => (a.priority = i));
-      done.map((a, i) => (a.priority = i));
-
-      return {
-        ...state,
-        current: { queue, development, done },
-      };
+      store[p].tasks[status] = [...preservedTasks];
+      return store;
     },
-    createTask: (state, action) => {
-      const newTask: ITask = action.payload;
-      return {
-        ...state,
-        tasks: [...state.tasks, newTask],
-      };
+    createTask: (state, { payload }) => {
+      const { status, projectId }: ITask = payload;
+      const { store, p } = getIndexes({ state, projectId });
+
+      store[p].tasks[status].push(payload);
+      return store;
     },
     editTask: (state, { payload }) => {
-      const tasks: ITask[] = JSON.parse(JSON.stringify(state.tasks));
-      const i = tasks.findIndex((item) => item.id == payload.id);
-      tasks[i] = payload;
+      const { status, projectId, id: taskId }: ITask = payload;
+      const { store, p, t } = getIndexes({ state, projectId, status, taskId });
 
-      return {
-        ...state,
-        tasks: [...tasks],
-      };
+      store[p].tasks[status][t] = payload;
+      return store;
     },
     moveTask: (state, { payload }) => {
-      const { drag, drop } = payload;
-      const current = JSON.parse(JSON.stringify(state.current));
+      const drag: ITask = payload.drag;
+      const drop: ITask = payload.drop;
+
+      const store = getStore(state);
+      const i = store.findIndex((pr: IProject) => pr.id === drop.projectId);
+      const current: ICurrent = { ...store[i].tasks };
 
       const from: ITask[] = current[drag.status];
       const to: ITask[] = current[drop.status];
@@ -95,42 +75,48 @@ export const mainSlice = createSlice({
         task.priority = i;
       });
 
-      let newCurrent = {
-        ...state.current,
-        [drop.status]: [...to],
-      };
+      current[drop.status] = [...to];
 
       if (drag.status !== drop.status) {
         from.forEach((task, i) => {
           task.priority = i;
         });
-        newCurrent = {
-          ...newCurrent,
-          [drag.status]: [...from],
-        };
+        current[drag.status] = [...from];
       }
-      return {
-        ...state,
-        current: { ...newCurrent },
-      };
+      return store;
     },
     deleteTask: (state, { payload }) => {
-      return {
-        ...state,
-        tasks: state.tasks.filter((task) => task.id !== payload),
-      };
+      const { projectId, status, id }: ITask = payload;
+      const { store, p } = getIndexes({ state, projectId });
+
+      store[p].tasks[status] = store[p].tasks[status].filter((task) => task.id !== id);
+
+      return store;
     },
     addComment: (state, { payload }) => {
+      //[taskId]-[sibling comments count]
       const idArr = payload.id.split('-');
       const taskId = idArr[0];
+      //get project id from task id
+      const [projectId] = taskId.split('|');
 
-      const parentId = idArr.length > 2 ? idArr.splice(0, idArr.length - 1).join('-') : idArr[0];
-      const tasks = JSON.parse(JSON.stringify(state.tasks));
+      const store = getStore(state);
+      const i = store.findIndex((pr: IProject) => pr.id === projectId);
+
+      const tasks = [
+        ...store[i].tasks.queue,
+        ...store[i].tasks.development,
+        ...store[i].tasks.done,
+      ];
+
+      const task = tasks.filter((task: ITask) => task.id === taskId)[0];
+
+      const commentParentId = idArr.splice(0, idArr.length - 1).join('-');
 
       let parent: ITask | IComment;
 
-      function findParent(elem: IComment) {
-        if (elem.id == parentId) {
+      function findParent(elem: ITask | IComment) {
+        if (elem.id === commentParentId) {
           parent = elem;
         } else {
           elem.comments.forEach((sub) => {
@@ -141,18 +127,14 @@ export const mainSlice = createSlice({
         }
         return parent;
       }
-
-      parent = findParent(tasks[taskId]);
+      parent = findParent(task);
       parent.comments.push(payload);
 
-      return {
-        ...state,
-        tasks: [...tasks],
-      };
+      return store;
     },
   },
 });
-export const { createProject, getProject, createTask, editTask, deleteTask, addComment, moveTask } =
+export const { createProject, sortColumn, createTask, editTask, deleteTask, addComment, moveTask } =
   mainSlice.actions;
 
 export default mainSlice.reducer;
