@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { INITIAL_TASK, moveTask, sortColumn } from '../../store/reducer';
+import { INITIAL_TASK, moveTask } from '../../store/reducer';
 
 import { IState, ITask, Status } from '../../types';
 
@@ -29,10 +29,6 @@ export const Column = ({ type }: ColumnProps) => {
     projectId: projectId ? projectId : '-',
     status: type,
   };
-
-  useEffect(() => {
-    dispatch(sortColumn({ status: type, projectId }));
-  }, []);
 
   const [isAddTaskModal, setIsAddTaskModal] = useState(false);
   const closeModal = () => {

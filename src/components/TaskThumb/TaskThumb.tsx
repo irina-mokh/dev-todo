@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, MutableRefObject } from 'react';
+import {  useState, useRef, MutableRefObject, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
-import { deleteTask, editTask, moveTask } from '../../store/reducer';
+import { deleteTask, moveTask, sortColumn } from '../../store/reducer';
 
 import { ITask } from '../../types';
 import { Modal } from '../Modal/Modal';
@@ -11,7 +11,7 @@ import { ConfirmDialog } from '../ConfirmDialog/ConfirmDialog';
 import { TaskForm } from '../TaskForm/TaskForm';
 
 export const TaskThumb = (task: ITask) => {
-  const { title, id, priority, status, deadline } = task;
+  const { title, id, priority, status, deadline, projectId } = task;
   const [isModal, setIsModal] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
 
@@ -21,15 +21,12 @@ export const TaskThumb = (task: ITask) => {
     setIsModal(false);
   };
 
-  useEffect(() => {
-    dispatch(editTask({...task}));
-  }, [title, id, priority, status, deadline]);
-
-  const [isLate, setIsLate] = useState(false);
-  useEffect(() => {
-    const today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
-    setIsLate(new Date(today) > new Date(deadline));
-  }, [deadline]);
+  const isLate = useMemo(
+    () => {
+      const today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+      return (new Date(today) > new Date(deadline));
+    }
+  , [deadline]);
   
   // ref for DnD task
   // eslint-disable-next-line prettier/prettier
@@ -45,6 +42,8 @@ export const TaskThumb = (task: ITask) => {
         }
 
         dispatch(moveTask({drag: drag, drop: task}));
+        dispatch(sortColumn({ status: drag.status, projectId }));
+        dispatch(sortColumn({ status: task.status, projectId }));
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

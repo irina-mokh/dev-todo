@@ -68,6 +68,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
   const {
     handleSubmit,
     register,
+    formState,
     formState: { isValid },
   } = useForm<ITaskForm>({
     defaultValues: { ...item, files: [...uploads] },
@@ -90,6 +91,8 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     }
     close();
   };
+
+  console.log('form:', formState.isValidating);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
