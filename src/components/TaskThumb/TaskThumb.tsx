@@ -1,4 +1,4 @@
-import {  useState, useRef, MutableRefObject, useMemo, useCallback } from 'react';
+import {  useRef, MutableRefObject, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 
@@ -9,23 +9,26 @@ import { ITask } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { ConfirmDialog } from '../ConfirmDialog/ConfirmDialog';
 import { TaskForm } from '../TaskForm/TaskForm';
+import { usePopup } from '../../utils/hooks';
 
 export const TaskThumb = (task: ITask) => {
   const { title, id, priority, status, deadline, projectId } = task;
-  const [isModal, setIsModal] = useState(false);
-  const [isConfirm, setIsConfirm] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
 
-  const openModal = useCallback(() => { if (!isModal && !isConfirm) {setIsModal(true);}},[]);
-  const closeModal = useCallback(() => {setIsModal(false);},[]);
+  const [isModal, openModal, closeModal] = usePopup(false);
+  const [isDialog, openDialog, closeDialog] = usePopup(false);
 
-  const openConfirm = useCallback((e: React.MouseEvent) => {
+  const handleOpenModal = () => {
+    if (!isModal && !isDialog) {
+      openModal();
+    }};
+  
+  const handleOpenDialog = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsConfirm(true);
-  }, []);
-  const closeConfirm = useCallback(() => {setIsConfirm(false);}, []);
+    openDialog();
+  };
 
   const isLate = useMemo(
     () => {
@@ -79,14 +82,14 @@ export const TaskThumb = (task: ITask) => {
         isLate && status !== 'done' ? 'task_late' : ''
       } ${isOver ? 'task_highlight' : ''} ${isDragging ? 'task_invisible' : ''}`}
       ref={ref}
-      onClick={openModal}
+      onClick={handleOpenModal}
       style={{ order: priority }}
     >
       <h3 className="task__title">{title}</h3>
       <p className="task__deadline">{new Date(deadline).toLocaleString().slice(0, 5)}</p>
       <button
         className="close-btn"
-        onClick={openConfirm}
+        onClick={handleOpenDialog}
         aria-label="delete"
       >
         🗙
@@ -96,7 +99,7 @@ export const TaskThumb = (task: ITask) => {
           <TaskForm close={closeModal} item={task} create={false} />
         </Modal>
       )}
-      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} close={closeConfirm} onConfirm={() => dispatch(deleteTask(task))}></ConfirmDialog>}
+      {isDialog && <ConfirmDialog confirmText={`Delete task ${title}?`} close={closeDialog} onConfirm={() => dispatch(deleteTask(task))}></ConfirmDialog>}
     </li>
   );
 };
