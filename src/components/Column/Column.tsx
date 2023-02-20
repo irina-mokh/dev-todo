@@ -23,11 +23,15 @@ export const Column = ({ type }: ColumnProps) => {
   const data = store.find((pr) => pr.id === projectId)?.tasks[type];
   const items = data?.map((item) => <TaskThumb {...item} key={item.id} />);
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   const initialTask = {
     ...INITIAL_TASK,
     id: `${projectId}|task${data?.length}`,
     projectId: projectId ? projectId : '-',
     status: type,
+    deadline: tomorrow.toISOString().split('T')[0],
   };
 
   const [isAddTaskModal, setIsAddTaskModal] = useState(false);
