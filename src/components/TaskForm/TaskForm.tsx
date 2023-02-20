@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from '../../store';
@@ -32,7 +32,11 @@ export interface ITaskForm {
   files: Array<string>;
 }
 
-export const TaskForm = ({ close, create, item }: TaskFormProps) => {
+const areEqual = (prevProps: TaskFormProps, nextProps: TaskFormProps) => {
+  return JSON.stringify(prevProps.item) == JSON.stringify(nextProps.item);
+};
+
+export const TaskForm = memo(function TaskForm({ close, create, item }: TaskFormProps) {
   const { files, fileNames, comments, created, subTasks, id } = item;
   const dispatch: AppDispatch = useDispatch();
   const [fileErr, setFileErr] = useState('');
@@ -65,13 +69,14 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     ));
   }
 
+  //  isValid changes from false to true after initialization -> 2 render
   const {
     handleSubmit,
     register,
-    formState,
     formState: { isValid },
   } = useForm<ITaskForm>({
     defaultValues: { ...item, files: [...uploads] },
+    mode: 'onChange',
   });
 
   const onSubmit: SubmitHandler<ITaskForm> = async (data) => {
@@ -92,7 +97,9 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
     close();
   };
 
-  console.log('form:', formState.isValidating);
+  const handleSubTasks = useCallback((data: ISubtasks) => {
+    setSubs(data);
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -146,13 +153,7 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
           {/* Subtasks */}
           <label className="label form__subtasks">
             <span className="form__text">Subtasks:</span>
-            <Subtasks
-              data={subs}
-              taskId={id}
-              handleChange={(data: ISubtasks) => {
-                setSubs(data);
-              }}
-            />
+            <Subtasks data={subs} taskId={id} handleChange={handleSubTasks} />
           </label>
         </div>
       </fieldset>
@@ -190,4 +191,4 @@ export const TaskForm = ({ close, create, item }: TaskFormProps) => {
       {!create && <Comments data={comments} taskId={id} />}
     </form>
   );
-};
+}, areEqual);

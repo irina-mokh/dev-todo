@@ -2,15 +2,16 @@ import { Modal } from '../Modal/Modal';
 
 export type ConfirmDialogPropsType = {
   confirmText: string,
-  setOpen: (arg: boolean) => void,
+  close: () => void,
   onConfirm: () => void,
 };
 
 export const ConfirmDialog = (props: ConfirmDialogPropsType) => {
-  const { confirmText, setOpen, onConfirm } = props;
+  const { confirmText, close, onConfirm } = props;
 
-  const close = () => {
-    setOpen(false);
+  const handleConfirm = () => {
+    close();
+    onConfirm();
   };
 
   return (
@@ -20,13 +21,7 @@ export const ConfirmDialog = (props: ConfirmDialogPropsType) => {
         <button className="btn" onClick={close}>
           Cancel
         </button>
-        <button
-          onClick={() => {
-            close();
-            onConfirm();
-          }}
-          className="btn"
-        >
+        <button onClick={handleConfirm} className="btn">
           Yes
         </button>
       </div>

@@ -1,4 +1,4 @@
-import {  useState, useRef, MutableRefObject, useMemo } from 'react';
+import {  useState, useRef, MutableRefObject, useMemo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 
@@ -17,9 +17,15 @@ export const TaskThumb = (task: ITask) => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const closeModal = () => {
-    setIsModal(false);
-  };
+  const openModal = useCallback(() => { if (!isModal && !isConfirm) {setIsModal(true);}},[]);
+  const closeModal = useCallback(() => {setIsModal(false);},[]);
+
+  const openConfirm = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsConfirm(true);
+  }, []);
+  const closeConfirm = useCallback(() => {setIsConfirm(false);}, []);
 
   const isLate = useMemo(
     () => {
@@ -73,22 +79,14 @@ export const TaskThumb = (task: ITask) => {
         isLate && status !== 'done' ? 'task_late' : ''
       } ${isOver ? 'task_highlight' : ''} ${isDragging ? 'task_invisible' : ''}`}
       ref={ref}
-      onClick={() => {
-        if (!isModal && !isConfirm) {
-          setIsModal(true);
-        }
-      }}
+      onClick={openModal}
       style={{ order: priority }}
     >
       <h3 className="task__title">{title}</h3>
       <p className="task__deadline">{new Date(deadline).toLocaleString().slice(0, 5)}</p>
       <button
         className="close-btn"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsConfirm(true);
-        }}
+        onClick={openConfirm}
         aria-label="delete"
       >
         🗙
@@ -98,7 +96,7 @@ export const TaskThumb = (task: ITask) => {
           <TaskForm close={closeModal} item={task} create={false} />
         </Modal>
       )}
-      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} setOpen={setIsConfirm} onConfirm={() => dispatch(deleteTask(task))}></ConfirmDialog>}
+      {isConfirm && <ConfirmDialog confirmText={`Delete task ${title}?`} close={closeConfirm} onConfirm={() => dispatch(deleteTask(task))}></ConfirmDialog>}
     </li>
   );
 };
