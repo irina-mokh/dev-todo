@@ -39,7 +39,7 @@ export const Comment = (comment: IComment) => {
         <span className="comment__arrow">&#5125;</span>
         <span>{`Show comments(${comments.length})`}</span>
       </button>
-      {isInput && <AddComment id={id + '-' + comments.length} />}
+      {isInput && <AddComment parentId={id} />}
       {comments && isSubs && <ul className="comment__subs">{subs}</ul>}
     </li>
   );

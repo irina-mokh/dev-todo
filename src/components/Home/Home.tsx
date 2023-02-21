@@ -1,33 +1,27 @@
-import { useState } from 'react';
-
+import { useSelector } from 'react-redux';
+import { IState } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { CreateProject } from '../CreateProject/CreateProject';
-import { ProjectList } from '../ProjectList/ProjectList';
+import { ProjectThumb } from '../ProjectThumb/ProjectThumb';
+import { usePopup } from '../../utils/hooks';
 
 export const Home = () => {
-  const [isCreateProjectModal, setIsCreateProjectModal] = useState(false);
+  const [isCreateProjectModal, openModal, closeModal] = usePopup(false);
 
-  const close = () => {
-    setIsCreateProjectModal(false);
-  };
-
+  const store = [...useSelector((state: IState) => state.main)];
+  const projects = store.map((item) => <ProjectThumb key={item.id} {...item}></ProjectThumb>);
   return (
     <main className="home main">
       <div className="container">
         <h1 className="app__heading">Projects</h1>
         <section>
-          <ProjectList />
-          <button
-            className="btn"
-            onClick={() => {
-              setIsCreateProjectModal(true);
-            }}
-          >
+          <ul className="projects">{projects}</ul>
+          <button className="btn" onClick={openModal}>
             Add project
           </button>
           {isCreateProjectModal && (
-            <Modal title="Create project" close={close}>
-              <CreateProject close={close} />
+            <Modal title="Create project" close={closeModal}>
+              <CreateProject close={closeModal} />
             </Modal>
           )}
         </section>

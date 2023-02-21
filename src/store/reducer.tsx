@@ -27,6 +27,10 @@ export const mainSlice = createSlice({
       store.push(payload);
       return store;
     },
+    deleteProject: (state, { payload }) => {
+      const store = getStore(state).filter((pr: IProject) => pr.id !== payload);
+      return store;
+    },
     sortColumn: (state, { payload }) => {
       const { status, projectId }: ITask = payload;
       const { store, p } = getIndexes({ state, projectId });
@@ -94,47 +98,47 @@ export const mainSlice = createSlice({
       return store;
     },
     addComment: (state, { payload }) => {
-      //[taskId]-[sibling comments count]
+      //[taskId]-[timestamp]
       const idArr = payload.id.split('-');
       const taskId = idArr[0];
       //get project id from task id
       const [projectId] = taskId.split('|');
 
-      const store = getStore(state);
+      const store: IProject[] = getStore(state);
       const i = store.findIndex((pr: IProject) => pr.id === projectId);
 
-      const tasks = [
-        ...store[i].tasks.queue,
-        ...store[i].tasks.development,
-        ...store[i].tasks.done,
-      ];
+      const tasks: Array<ITask> = Object.values(store[i].tasks).flat();
 
       const task = tasks.filter((task: ITask) => task.id === taskId)[0];
 
       const commentParentId = idArr.splice(0, idArr.length - 1).join('-');
 
-      let parent: ITask | IComment;
-
-      function findParent(elem: ITask | IComment) {
-        if (elem.id === commentParentId) {
-          parent = elem;
-        } else {
-          elem.comments.forEach((sub) => {
-            if (!parent) {
-              parent = findParent(sub);
-            }
-          });
-        }
-        return parent;
+      let parent: ITask | IComment = task;
+      function findParent(comments: IComment[]) {
+        comments.forEach((sub) => {
+          if (sub.id === commentParentId) {
+            parent = sub;
+          } else findParent(sub.comments);
+        });
       }
-      parent = findParent(task);
+      if (task.id !== commentParentId) {
+        findParent(task.comments);
+      }
       parent.comments.push(payload);
 
       return store;
     },
   },
 });
-export const { createProject, sortColumn, createTask, editTask, deleteTask, addComment, moveTask } =
-  mainSlice.actions;
+export const {
+  createProject,
+  deleteProject,
+  sortColumn,
+  createTask,
+  editTask,
+  deleteTask,
+  addComment,
+  moveTask,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;

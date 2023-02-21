@@ -5,17 +5,17 @@ import { AppDispatch } from '../../store';
 import { addComment } from '../../store/reducer';
 
 type AddCommentProps = {
-  id: string,
+  parentId: string,
 };
 
-export const AddComment = ({ id }: AddCommentProps) => {
+export const AddComment = ({ parentId }: AddCommentProps) => {
   const [comment, setComment] = useState('');
   const dispatch: AppDispatch = useDispatch();
 
   const handleComment = (e: React.MouseEvent) => {
     e.preventDefault();
     const newComment = {
-      id: id,
+      id: parentId + '-' + Date.now(),
       text: comment,
       comments: [],
       time: String(new Date()),

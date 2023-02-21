@@ -4,3 +4,12 @@
 	flex-grow: 1;
 	margin: 1em 0;
 }
+.projects {
+	margin: 0.6em 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	@media (max-width: vars.$smallScreen) {
+		flex-direction: column;
+	}
+}

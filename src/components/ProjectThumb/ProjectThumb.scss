@@ -1,0 +1,52 @@
+@use '../../styles/vars';
+
+.project-thumb {
+	position: relative;
+	min-width: 200px;
+	max-width: 400px;
+	margin: 0 1em 1em 0;
+	list-style: none;
+	font-size: 1.5em;
+	font-weight: 600;
+	border: 1px solid vars.$gray;
+	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s;
+
+	&:hover {
+		box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.3);
+	}
+
+	&__title {
+		overflow: hidden;
+		display: inline-block;
+		width: calc(100%);
+		height: calc(100%);
+		text-overflow: ellipsis;
+		white-space:nowrap
+	}
+
+	&__delete {
+		position: absolute;
+		top: 1em;
+		right: 1em;
+		background-color: transparent;
+		border: none;
+		color: vars.$white;
+		opacity: 0.2;
+		&:hover {
+			opacity: 1;
+		}
+		&:active {
+			opacity: 0.9;
+		}
+	}
+	&__link {
+		display: block;
+		padding: 1em;
+		text-decoration: none;
+		color: inherit;
+		@media (max-width: vars.$smallScreen) {
+			padding: 0.8em;
+		}
+	}
+}
