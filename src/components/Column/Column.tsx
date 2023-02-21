@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { AppDispatch } from '../../store';
 import { INITIAL_TASK, moveTask } from '../../store/reducer';
 
-import { IState, ITask, Status } from '../../types';
+import { ITask, Status } from '../../types';
 
 import { Modal } from '../Modal/Modal';
 import { TaskForm } from '../TaskForm/TaskForm';
 import { useParams } from 'react-router-dom';
 import { TaskThumb } from '../TaskThumb/TaskThumb';
+import { useColumn } from '../../utils/hooks';
 
 type ColumnProps = {
   type: Status,
@@ -19,16 +20,15 @@ type ColumnProps = {
 export const Column = ({ type }: ColumnProps) => {
   const projectId = useParams().id;
 
-  const store = useSelector((state: IState) => state.main);
-  const data = store.find((pr) => pr.id === projectId)?.tasks[type];
-  const items = data?.map((item) => <TaskThumb {...item} key={item.id} />);
+  const [data, counter] = useColumn(String(projectId), type);
+  const items = data.map((item) => <TaskThumb {...item} key={item.id} />);
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const initialTask = {
     ...INITIAL_TASK,
-    id: `${projectId}|task${data?.length}`,
+    id: `${projectId}|task${counter}`,
     projectId: projectId ? projectId : '-',
     status: type,
     deadline: tomorrow.toISOString().split('T')[0],

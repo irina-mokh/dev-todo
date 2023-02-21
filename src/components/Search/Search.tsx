@@ -1,16 +1,10 @@
 import { useState } from 'react';
-import { ITask, IState } from '../../types';
-import { useSelector } from 'react-redux';
+import { ITask } from '../../types';
+import { useTasks } from '../../utils/hooks';
 
 export const Search = () => {
   const [results, setResults] = useState<Array<ITask>>([]);
-
-  const store = [...useSelector((state: IState) => state.main)];
-
-  const tasks: ITask[] = [];
-  store.forEach((project) => {
-    tasks.push(...project.tasks.queue, ...project.tasks.development, ...project.tasks.done);
-  });
+  const [tasks] = useTasks();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
