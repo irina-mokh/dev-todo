@@ -4,6 +4,16 @@
 	flex-grow: 1;
 	margin: 1em 0;
 }
+
+.main {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		.btn {
+			margin: 0 0 0 1em;
+		}
+	}
+}
 .projects {
 	margin: 0.6em 0;
 	display: flex;

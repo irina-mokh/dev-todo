@@ -13,9 +13,8 @@ export const Home = () => {
   return (
     <main className="home main">
       <div className="container">
-        <h1 className="app__heading">Projects</h1>
-        <section>
-          <ul className="projects">{projects}</ul>
+        <header className="main__header">
+          <h1 className="app__heading">Projects</h1>
           <button className="btn" onClick={openModal}>
             Add project
           </button>
@@ -24,6 +23,9 @@ export const Home = () => {
               <CreateProject close={closeModal} />
             </Modal>
           )}
+        </header>
+        <section>
+          <ul className="projects">{projects}</ul>
         </section>
       </div>
     </main>
