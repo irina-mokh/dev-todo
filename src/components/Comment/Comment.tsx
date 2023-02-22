@@ -4,7 +4,7 @@ import { AddComment } from '../AddComment/AddComment';
 
 export const Comment = (comment: IComment) => {
   const { text, time, comments, id } = comment;
-  const subs = comments.map((item, i) => <Comment key={i} {...item}></Comment>);
+  const subs = comments.map((item) => <Comment key={item.id} {...item}></Comment>);
   const [isInput, setIsInput] = useState(false);
   const [isSubs, setIsSubs] = useState(false);
 
