@@ -20,7 +20,11 @@
 	}
 
 	&__title {
+		display: inline-block;
 		flex-grow: 1;
+		max-width: 150px;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	&__deadline {
 		margin: 0 1em 0 0;
