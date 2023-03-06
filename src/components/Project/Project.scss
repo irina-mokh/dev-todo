@@ -28,10 +28,10 @@
 
 	&__column {
 		list-style: none;
-		width: 100%;
+		width: 32%;
+		flex-shrink: 0;
 		height: 100%;
 		margin: 0 1em 0 0;
-		// overflow-y: auto;
 
 		&:last-child {
 			margin-right: 0;
