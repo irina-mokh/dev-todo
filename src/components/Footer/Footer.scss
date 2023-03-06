@@ -19,10 +19,10 @@
 		color: black;
 		filter: invert(43%) sepia(12%) saturate(268%) hue-rotate(215deg) brightness(95%) contrast(92%);
 		&:hover {
-			filter: invert(54%) sepia(100%) saturate(340%) hue-rotate(115deg) brightness(97%) contrast(95%);
+			filter: vars.$filterGreen;
 		}
 		&:active {
-			filter: invert(37%) sepia(43%) saturate(2979%) hue-rotate(143deg) brightness(99%) contrast(84%);
+			filter: vars.$filterDarkGreen;
 		}
 		&__icon {
 			display: block;

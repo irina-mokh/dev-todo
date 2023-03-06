@@ -1,0 +1,15 @@
+@use 'vars';
+
+@mixin whiteFilterAndBorder {
+	filter: vars.$filterLight;
+	border: 1px solid transparent;
+
+	transition: all 0.2s ease-in-out;
+		&:hover {
+			border-bottom: 1px solid black;
+			filter: vars.$filterWhite;
+		}
+		&:active {
+			opacity: 0.8;
+		}
+}

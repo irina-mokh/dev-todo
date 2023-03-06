@@ -15,7 +15,7 @@ export const Header = () => {
       <div className="container">
         <nav className="header__wrapper">
           <Link to="/" className="header__logo">
-            Dev-todo
+            dev-todo
           </Link>
           <button
             className="header__search"

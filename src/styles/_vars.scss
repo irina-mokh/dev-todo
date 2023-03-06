@@ -1,14 +1,21 @@
 $mediumScreen: 992px;
 $smallScreen: 576px;
 $white: #FFFFFF;
+$filterWhite: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7473%) hue-rotate(122deg) brightness(107%) contrast(101%);
 $black: #000000;
 
 $dark: #37323E;
+$filterDark:  brightness(0) saturate(100%) invert(17%) sepia(15%) saturate(602%) hue-rotate(223deg) brightness(96%) contrast(90%);
 $gray: #6D6A75;
-$light: #BFBDC1;
+$filterGray: brightness(0) saturate(100%) invert(44%) sepia(7%) saturate(544%) hue-rotate(215deg) brightness(89%) contrast(81%);
+$light: #e9e9e9;
+$filterLight: brightness(0) saturate(100%) invert(97%) sepia(22%) saturate(284%) hue-rotate(208deg) brightness(116%) contrast(83%);
 
 $green: #1BC89E;
+$filterGreen: brightness(0) saturate(100%) invert(71%) sepia(61%) saturate(546%) hue-rotate(109deg) brightness(82%) contrast(95%);
 $darkGreen: #14a27f;
+$filterDarkGreen: brightness(0) saturate(100%) invert(44%) sepia(95%) saturate(361%) hue-rotate(115deg) brightness(96%) contrast(96%);
+
 $red: #E07A5F;
 // $yellow: #DEB841;
 // $orange: #fea008;
